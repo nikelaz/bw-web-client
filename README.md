@@ -8,9 +8,10 @@ This is the web client frontend application for the Budget Warden project (a per
 
 ### YouTube Series
 
-1. [**Software and DB Architecture**](https://youtu.be/Z3OEsK2fUl8)
+1. [**Software Architecture**](https://youtu.be/Z3OEsK2fUl8)
 2. [**UI/UX Design**](https://youtu.be/D_TpsGgVdwY)
-3. [**Model Definition and Validation with TypeORM and PostgreSQL**](https://youtu.be/BxH9NYMuTrU)
+3. [**TypeORM Models and Validation**](https://youtu.be/BxH9NYMuTrU)
+4. [**Fastify User Authentication with JWT**](https://youtu.be/vVF8Szpx8Ho)
 
 ## Dependencies
 
