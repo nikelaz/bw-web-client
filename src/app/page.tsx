@@ -1,6 +1,6 @@
 const Home = () => (
   <main>
-    Home
+    <div className="p-4 bg-grey9 rounded-xl"></div>
   </main>
 );
 
