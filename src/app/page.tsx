@@ -2,7 +2,7 @@ import { Button } from '@nikelaz/bw-ui';
 
 const Home = () => (
   <main>
-    <div className="p-4 bg-grey9 rounded-xl"></div>
+    Home
   </main>
 );
 
