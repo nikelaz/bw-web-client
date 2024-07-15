@@ -1,58 +1,39 @@
 'use client';
 
 import {
-  Dialog,
-  DialogForm,
-  DialogFooter,
+  Label,
   Input,
   Button,
 } from '@nikelaz/bw-ui';
-import User from '@/model/user';
+import { login } from './actions';
+import { useFormState } from 'react-dom'
+
+const initialState = {
+  message: '',
+}
 
 const Login = () => {
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get('email')?.toString();
-    const password = formData.get('password')?.toString();
-
-    if (!email || !password) {
-      return alert('The provided user details are invalid');
-    }
-
-    let response;
-
-    try {
-      response = await User.login(email, password);
-    } catch (error: any) {
-      if (error instanceof Error) {
-        return alert(error.message);
-      }
-      if (typeof error === 'string') {
-        return alert(error);
-      }
-      console.error('Error of unknown type', error);
-    }
-
-    console.log('response', response);
-  };
+  const [state, formAction] = useFormState(login, initialState);
 
   return (
-  <Dialog
-    isOpen={true}
-    hasCloseBtn={false}
-    title="Login"
-  >
-    <form onSubmit={handleFormSubmit}>
-      <DialogForm>
-        <Input autoFocus={true} required={true} name="email" type="email" placeholder="Email" />
-        <Input required={true} name="password" type="password" placeholder="Password" />
-      </DialogForm>
-      <DialogFooter>
-        <Button>Sign in</Button>
-      </DialogFooter>
-    </form>
-  </Dialog>
+    <div className="flex min-h-screen justify-center items-center bg-grey1">
+      <div className="w-min shadow-lg rounded-xl p-5 bg-white">
+        <form action={formAction} className="flex flex-col gap-5">
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <Input autoFocus={true} required={true} name="email" type="email" id="email" />
+          </div>
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <Input required={true} name="password" type="password" id="password" />
+          </div>
+          <p aria-live="polite">
+            {state?.message}
+          </p>
+          <Button className="self-end">Sign in</Button>
+        </form>
+      </div>
+    </div>
   );
 };
 

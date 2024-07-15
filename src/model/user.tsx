@@ -19,11 +19,9 @@ class User {
 
     const jsonResponse = await req.json();
 
-    if (req.status !== 200) {
-      throw new Error(jsonResponse.message);
-    }
-
-    sessionStorage.setItem('token', jsonResponse.token);
+    // if (req.status !== 200) {
+    //   throw new Error(jsonResponse.message);
+    // }
 
     return jsonResponse;
   }

@@ -1,21 +1,29 @@
-import { Button, IconTypes } from "@nikelaz/bw-ui";
-import Income from "./income";
+import { Button, IconTypes } from '@nikelaz/bw-ui';
+import Income from './income';
+import { useAuth } from '@/helpers/auth';
 
-const Budget = () => (
-  <main className="flex min-h-screen">
-    {/* left column */}
-    <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6">
-      <div className="flex justify-end">
-        <Button icon={IconTypes.Plus}>New Transaction</Button>
+const Budget = () => {
+  const [user, token] = useAuth();
+  
+  console.log('budget user 2', user);
+  console.log('budget token 2', token);
+
+  return (
+    <main className="flex min-h-screen">
+      {/* left column */}
+      <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6">
+        <div className="flex justify-end">
+          <Button icon={IconTypes.Plus}>New Transaction</Button>
+        </div>
+        <Income />
       </div>
-      <Income />
-    </div>
 
-    {/* right column */}
-    <div className="flex-1 bg-grey3 min-h-screen p-6">
+      {/* right column */}
+      <div className="flex-1 bg-grey3 min-h-screen p-6">
 
-    </div>
-  </main>
-);
+      </div>
+    </main>
+  );
+}
 
 export default Budget;
