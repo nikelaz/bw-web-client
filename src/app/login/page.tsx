@@ -5,7 +5,7 @@ import {
   Input,
   Button,
 } from '@nikelaz/bw-ui';
-import { login } from './actions';
+import { login } from '../../actions/user-actions';
 import { useFormState } from 'react-dom'
 
 const initialState = {
@@ -27,7 +27,7 @@ const Login = () => {
             <Label htmlFor="password">Password</Label>
             <Input required={true} name="password" type="password" id="password" />
           </div>
-          <p aria-live="polite">
+          <p aria-live="polite" className="text-red1">
             {state?.message}
           </p>
           <Button className="self-end">Sign in</Button>

@@ -4,9 +4,6 @@ import { useAuth } from '@/helpers/auth';
 
 const Budget = () => {
   const [user, token] = useAuth();
-  
-  console.log('budget user 2', user);
-  console.log('budget token 2', token);
 
   return (
     <main className="flex min-h-screen">

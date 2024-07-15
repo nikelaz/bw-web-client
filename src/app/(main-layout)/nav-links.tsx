@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarNavBtn, Icon, IconTypes } from '@nikelaz/bw-ui';
+import { logout } from '@/actions/user-actions';
 
 const NavLinks = () => {
   const pathname = usePathname();
@@ -25,13 +26,14 @@ const NavLinks = () => {
           <Icon type={IconTypes.Gear} width={27} height={24} fill="currentColor" />
         </SidebarNavBtn>
       </Link>
-      <Link href="#" className="w-full flex justify-center">
+      <div className="w-full flex justify-center">
         <SidebarNavBtn
           label="User Profile"
+          onClick={() => logout()}
         >
           <Icon type={IconTypes.User} width={27} height={24} fill="currentColor" />
         </SidebarNavBtn>
-      </Link>
+      </div>
     </>
   );
 };

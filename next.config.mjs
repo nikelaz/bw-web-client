@@ -8,6 +8,15 @@ const nextConfig = {
       aggregateTimeout: 300,
     },
   }),
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/budget',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 export default nextConfig;

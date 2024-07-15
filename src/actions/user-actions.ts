@@ -2,6 +2,7 @@
 
 import { serviceUrl } from '@/config';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export const login = async (prevState: any, formData: FormData) => {
   const email = formData.get('email')?.toString();
@@ -31,9 +32,23 @@ export const login = async (prevState: any, formData: FormData) => {
   }
 
   const jsonResponse = await req.json();
+
+  const cookieStore = cookies();
   
-  cookies().set('token', jsonResponse.token);
-  cookies().set('user', JSON.stringify(jsonResponse.user));
+  const thirtyDays = 24 * 60 * 60 * 1000 * 30
+  const expirationTimestamp = Date.now() + thirtyDays;
+
+  cookieStore.set(
+    'token',
+    jsonResponse.token,
+    { expires: expirationTimestamp }
+  );
+
+  cookieStore.set(
+    'user',
+    JSON.stringify(jsonResponse.user),
+    { expires: expirationTimestamp }
+  );
 
   if (req.status !== 200) {
     if (jsonResponse.message) {
@@ -43,7 +58,12 @@ export const login = async (prevState: any, formData: FormData) => {
     }
   }
 
-  return {
-    message: 'User logged in successfully'
-  };
+  redirect('/budget');
+};
+
+export const logout = () => {
+  const cookieStore = cookies();
+  cookieStore.delete('token');
+  cookieStore.delete('user');
+  redirect('/login');
 };
