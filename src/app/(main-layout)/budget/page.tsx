@@ -1,9 +1,45 @@
 import { Button, IconTypes } from '@nikelaz/bw-ui';
 import Income from './income';
 import { useAuth } from '@/helpers/auth';
+import { serviceUrl } from '@/config';
+import { CategoryType } from '@/types/category-type';
 
-const Budget = () => {
+const fetchBudgets = async (token: string | undefined) => {
+  if (!token) return;
+
+  const reqOptions = {
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+
+  const req = await fetch(`${serviceUrl}/budgets`, reqOptions);
+
+  const jsonResponse = await req.json();
+
+  return jsonResponse.budgets;
+};
+
+const Budget = async () => {
   const [user, token] = useAuth();
+
+  const budgets = await fetchBudgets(token);
+
+  const currentBudget = budgets[0];
+  const categoryBudgets = currentBudget.categoryBudgets;
+  const categoryBudgetsByType: any = {
+    [CategoryType.INCOME]: [],
+    [CategoryType.EXPENSE]: [],
+    [CategoryType.SAVINGS]: [],
+    [CategoryType.DEBT]: [],
+  };
+
+  categoryBudgets.forEach((categoryBudget: any) => {
+    categoryBudgetsByType[categoryBudget.category.type].push(categoryBudget);
+  });
+
+  console.log('categoryBudgetsByType', categoryBudgetsByType);
 
   return (
     <main className="flex min-h-screen">
