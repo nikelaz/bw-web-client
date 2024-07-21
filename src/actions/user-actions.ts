@@ -67,3 +67,55 @@ export const logout = () => {
   cookieStore.delete('user');
   redirect('/login');
 };
+
+export const signup = async (prevState: any, formData: FormData) => {
+  const password = formData.get('password');
+  const repeatPassword = formData.get('repeatPassword');
+
+  if (password !== repeatPassword) {
+    return {
+      message: 'The two passwords do not match',
+    };
+  }
+
+  const reqOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user: {
+        email: formData.get('email'),
+        password: formData.get('password'),
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+      },
+    }),
+  };
+
+  let req;
+  
+  try {
+    req = await fetch(`${serviceUrl}/users`, reqOptions);
+  } catch (error: any) {
+    if (error.message) {
+      return {
+        message: error.message
+      };
+    }
+
+    return {
+      message: error.toString()
+    };
+  }
+
+  const response = await req.json();
+
+  if (req.status !== 200) {
+    return {
+      message: response.message
+    };
+  }
+
+  redirect('/login');
+};
