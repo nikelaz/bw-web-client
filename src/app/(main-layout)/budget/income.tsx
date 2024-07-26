@@ -59,13 +59,13 @@ const Income = (props: IncomeProps) => {
       <tfoot>
         <Row>
           <Cell>
-            <Button type='link' icon={IconTypes.Plus}>New Income</Button>
+            <Button type="link" icon={IconTypes.Plus}>New Income</Button>
           </Cell>
-          <Cell textAlign='right' fontWeight='bold'>
-            3000 $
+          <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
+            3000
           </Cell>
-          <Cell textAlign='right' fontWeight='bold'>
-            3000 $
+          <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
+            3000
           </Cell>
         </Row>
       </tfoot>
