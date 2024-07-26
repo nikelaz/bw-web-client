@@ -36,10 +36,12 @@ const Budget = async () => {
   };
 
   categoryBudgets.forEach((categoryBudget: any) => {
-    categoryBudgetsByType[categoryBudget.category.type].push(categoryBudget);
+    categoryBudgetsByType[categoryBudget.category.type].push({
+      ...categoryBudget,
+      title: categoryBudget.category.title,
+      progress: categoryBudget.currentAmount / categoryBudget.amount,
+    });
   });
-
-  console.log('categoryBudgetsByType', categoryBudgetsByType);
 
   return (
     <main className="flex min-h-screen">
@@ -48,7 +50,7 @@ const Budget = async () => {
         <div className="flex justify-end">
           <Button icon={IconTypes.Plus}>New Transaction</Button>
         </div>
-        <Income />
+        <Income categoryBudgets={categoryBudgetsByType[CategoryType.INCOME]} />
       </div>
 
       {/* right column */}
