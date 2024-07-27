@@ -21,7 +21,7 @@ type IncomeProps = Readonly<{
   token?: string
 }>;
 
-const Income = (props: IncomeProps) => {
+const Expenses = (props: IncomeProps) => {
   const [budgetModel] = useBudgetModel();
   const createDialogModel = useDialog();
   const deleteDialogModel = useDialog();
@@ -29,12 +29,12 @@ const Income = (props: IncomeProps) => {
 
   if (budgetModel === null) return null;
 
-  const categoryBudgets = budgetModel.categoryBudgetsByType[CategoryType.INCOME];
+  const categoryBudgets = budgetModel.categoryBudgetsByType[CategoryType.EXPENSE];
 
   const colDefs: Array<ColDef> = [
     {
       field: 'category.title',
-      label: 'Income',
+      label: 'Expenses',
       editable: true,
       fontWeight: 'bold',
       headerCellRenderer() {
@@ -56,7 +56,7 @@ const Income = (props: IncomeProps) => {
     },
     {
       field: 'currentAmount',
-      label: 'Received',
+      label: 'Spend',
       inputType: 'number',
       textAlign: 'right',
       unitSuffix: '$',
@@ -115,7 +115,7 @@ const Income = (props: IncomeProps) => {
                   icon={IconTypes.Plus}
                   onClick={() => createDialogModel[1](true)}
                 >
-                  New Income
+                  New Category
                 </Button>
               </Cell>
               <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
@@ -130,17 +130,23 @@ const Income = (props: IncomeProps) => {
       />
 
       <CreateCategoryBudgetDialog
-        categoryType={CategoryType.INCOME}
-          dialogHeading="Create New Income" 
-          exampleCategory="Salary"
-          isOpen={createDialogModel[0]}
-          setIsOpen={createDialogModel[1]}
-          onKeyDown={createDialogModel[2]}
-          token={props.token}
-        />
-      <DeleteCategoryDialog isOpen={deleteDialogModel[0]} setIsOpen={deleteDialogModel[1]} onKeyDown={deleteDialogModel[2]} token={props.token} row={deleteDataRow} />
+        categoryType={CategoryType.EXPENSE}
+        dialogHeading="Create New Category"
+        exampleCategory="Groceries"
+        isOpen={createDialogModel[0]}
+        setIsOpen={createDialogModel[1]}
+        onKeyDown={createDialogModel[2]}
+        token={props.token}
+      />
+      <DeleteCategoryDialog
+        isOpen={deleteDialogModel[0]}
+        setIsOpen={deleteDialogModel[1]}
+        onKeyDown={deleteDialogModel[2]}
+        token={props.token}
+        row={deleteDataRow}
+      />
     </>
   );
 };
 
-export default Income;
+export default Expenses;

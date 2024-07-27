@@ -17,11 +17,11 @@ import { DeleteCategoryDialog } from './delete-category-dialog';
 import { useState } from 'react';
 import { updateCategoryBudget } from '@/actions/budget-actions';
 
-type IncomeProps = Readonly<{
+type DebtProps = Readonly<{
   token?: string
 }>;
 
-const Income = (props: IncomeProps) => {
+const Debt = (props: DebtProps) => {
   const [budgetModel] = useBudgetModel();
   const createDialogModel = useDialog();
   const deleteDialogModel = useDialog();
@@ -29,12 +29,12 @@ const Income = (props: IncomeProps) => {
 
   if (budgetModel === null) return null;
 
-  const categoryBudgets = budgetModel.categoryBudgetsByType[CategoryType.INCOME];
+  const categoryBudgets = budgetModel.categoryBudgetsByType[CategoryType.DEBT];
 
   const colDefs: Array<ColDef> = [
     {
       field: 'category.title',
-      label: 'Income',
+      label: 'Debt',
       editable: true,
       fontWeight: 'bold',
       headerCellRenderer() {
@@ -44,6 +44,15 @@ const Income = (props: IncomeProps) => {
           </HeaderCell>
         );
       }
+    },
+    {
+      field: 'category.accAmount',
+      label: 'Leftover Debt',
+      inputType: 'number',
+      textAlign: 'right',
+      unitSuffix: '$',
+      editable: true,
+      width: '14rem',
     },
     {
       field: 'amount',
@@ -56,7 +65,7 @@ const Income = (props: IncomeProps) => {
     },
     {
       field: 'currentAmount',
-      label: 'Received',
+      label: 'Paid',
       inputType: 'number',
       textAlign: 'right',
       unitSuffix: '$',
@@ -100,11 +109,13 @@ const Income = (props: IncomeProps) => {
           const totals = {
             planned: 0,
             received: 0,
+            leftover: 0
           };
 
           data.forEach((categoryBudget: any) => {
             totals.planned += parseFloat(categoryBudget.amount);
             totals.received += parseFloat(categoryBudget.currentAmount);
+            totals.leftover += parseFloat(categoryBudget['category.accAmount']);
           });
 
           return (
@@ -115,8 +126,11 @@ const Income = (props: IncomeProps) => {
                   icon={IconTypes.Plus}
                   onClick={() => createDialogModel[1](true)}
                 >
-                  New Income
+                  New Loan
                 </Button>
+              </Cell>
+              <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
+                {totals.leftover}
               </Cell>
               <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
                 {totals.planned}
@@ -130,17 +144,25 @@ const Income = (props: IncomeProps) => {
       />
 
       <CreateCategoryBudgetDialog
-        categoryType={CategoryType.INCOME}
-          dialogHeading="Create New Income" 
-          exampleCategory="Salary"
-          isOpen={createDialogModel[0]}
-          setIsOpen={createDialogModel[1]}
-          onKeyDown={createDialogModel[2]}
-          token={props.token}
-        />
-      <DeleteCategoryDialog isOpen={deleteDialogModel[0]} setIsOpen={deleteDialogModel[1]} onKeyDown={deleteDialogModel[2]} token={props.token} row={deleteDataRow} />
+        categoryType={CategoryType.DEBT}
+        dialogHeading="Create New Loan"
+        exampleCategory="Mortgage"
+        isOpen={createDialogModel[0]}
+        setIsOpen={createDialogModel[1]}
+        onKeyDown={createDialogModel[2]}
+        token={props.token}
+        showAccAmountField={true}
+        accAmountLabel='Leftover Debt'
+      />
+      <DeleteCategoryDialog
+        isOpen={deleteDialogModel[0]}
+        setIsOpen={deleteDialogModel[1]}
+        onKeyDown={deleteDialogModel[2]}
+        token={props.token}
+        row={deleteDataRow}
+      />
     </>
   );
 };
 
-export default Income;
+export default Debt;
