@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useReducer, useState } from 'react';
+import { createContext, useContext, useReducer, useState, useEffect } from 'react';
 import { CategoryType } from '@/types/category-type';
 
 const BudgetModelContext = createContext<any>([null, null]);
@@ -34,6 +34,7 @@ const reducer = (budgets: any, action: BudgetReducerAction) => {
   if (action.type === BudgetActionsTypes.DELETE_CATEGORY_BUDGET) {
     const expectedBudgets = budgets.map((budget: any) => {
       if (budget.id === action.payload.budgetId) {
+        console.log('found budget');
         const ret =  {
           ...budget,
           categoryBudgets: budget.categoryBudgets.flatMap((categoryBudget: any) => {
@@ -73,7 +74,9 @@ const reducer = (budgets: any, action: BudgetReducerAction) => {
 
 export const BudgetModelContextProvider = (props: any) => {
   const [budgets, dispatch] = useReducer(reducer, props.budgets);
-  const [currentBudget, setCurrentBudget] = useState(findClosestBudgetDate(new Date(), budgets));
+  const [currentBudgetId, setCurrentBudgetId] = useState(findClosestBudgetDate(new Date(), budgets).id);
+
+  const currentBudget = budgets.find((budget: any) => budget.id === currentBudgetId);
   
   const categoryBudgets = currentBudget.categoryBudgets;
   const categoryBudgetsByType: any = {
@@ -83,7 +86,7 @@ export const BudgetModelContextProvider = (props: any) => {
     [CategoryType.DEBT]: [],
   };
 
-  categoryBudgets.forEach((categoryBudget: any) => {
+  currentBudget.categoryBudgets.forEach((categoryBudget: any) => {
     categoryBudgetsByType[categoryBudget.category.type].push(categoryBudget);
   });
 
@@ -92,7 +95,7 @@ export const BudgetModelContextProvider = (props: any) => {
     currentBudget,
     categoryBudgets,
     categoryBudgetsByType,
-    setCurrentBudget,
+    setCurrentBudgetId,
   };
 
   return (

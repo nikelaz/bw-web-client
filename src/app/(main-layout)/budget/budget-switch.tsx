@@ -36,7 +36,7 @@ export const BudgetSwitch = () => {
   const dropdownChangeHandler = (options: Array<DropdownOption>) => {
     const activeOption = options.find(option => option.isActive);
     if (!activeOption) return;
-    budgetModel.setCurrentBudget(activeOption.value);
+    budgetModel.setCurrentBudgetId(activeOption.value.id);
   };
 
   return (
