@@ -31,8 +31,6 @@ const Income = (props: IncomeProps) => {
 
   const categoryBudgets = budgetModel.categoryBudgetsByType[CategoryType.INCOME];
 
-  console.log("incomeCategoryBudgets", categoryBudgets);
-
   const colDefs: Array<ColDef> = [
     {
       field: 'category.title',

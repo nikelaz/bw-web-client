@@ -15,7 +15,7 @@ type BudgetReducerAction = {
   payload: any
 };
 
-const findClosestBudgetDate = (referenceDate: Date, budgets: Array<any>) => {
+const findClosestBudgetDate = (referenceDate: any, budgets: Array<any>) => {
   const budgetsCopy = budgets.map(budget => ({
     ...budget,
     month: new Date(budget.month) 
@@ -27,14 +27,13 @@ const findClosestBudgetDate = (referenceDate: Date, budgets: Array<any>) => {
     return distancea - distanceb; // sort a before b when the distance is smaller
   });
 
-  return budgetsCopy[0]
+  return budgetsCopy[0];
 };
 
 const reducer = (budgets: any, action: BudgetReducerAction) => {
   if (action.type === BudgetActionsTypes.DELETE_CATEGORY_BUDGET) {
     const expectedBudgets = budgets.map((budget: any) => {
       if (budget.id === action.payload.budgetId) {
-        console.log('found budget');
         const ret =  {
           ...budget,
           categoryBudgets: budget.categoryBudgets.flatMap((categoryBudget: any) => {
@@ -86,7 +85,7 @@ export const BudgetModelContextProvider = (props: any) => {
     [CategoryType.DEBT]: [],
   };
 
-  currentBudget.categoryBudgets.forEach((categoryBudget: any) => {
+  categoryBudgets.forEach((categoryBudget: any) => {
     categoryBudgetsByType[categoryBudget.category.type].push(categoryBudget);
   });
 
@@ -95,6 +94,7 @@ export const BudgetModelContextProvider = (props: any) => {
     currentBudget,
     categoryBudgets,
     categoryBudgetsByType,
+    currentBudgetId,
     setCurrentBudgetId,
   };
 
