@@ -1,6 +1,6 @@
 import { Dialog, DialogForm, Input, DialogFooter } from '@nikelaz/bw-ui';
 import { Button } from '@nikelaz/bw-ui';
-import { useBudgetModel, BudgetActionsTypes } from './budget-model';
+import { useBudgetModel } from './budget-model';
 import { CategoryType } from '@/types/category-type';
 import { createCategoryBudget } from '@/actions/budget-actions';
 
@@ -17,7 +17,7 @@ type CreateCategoryBudgetDialogProps = Readonly<{
 }>;
 
 export const CreateCategoryBudgetDialog = (props: CreateCategoryBudgetDialogProps) => {
-  const [budgetModel, dispatch] = useBudgetModel();
+  const budgetModel = useBudgetModel();
 
   const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,14 +47,7 @@ export const CreateCategoryBudgetDialog = (props: CreateCategoryBudgetDialogProp
       return alert(error.message);
     }
 
-    dispatch({
-      type: BudgetActionsTypes.CREATE_CATEGORY_BUDGET,
-      payload: {
-        budgetId: budgetModel.currentBudget.id,
-        categoryBudget: response.categoryBudget,
-      }
-    })
-
+    budgetModel.refresh();
     props.setIsOpen(false);
   };
 

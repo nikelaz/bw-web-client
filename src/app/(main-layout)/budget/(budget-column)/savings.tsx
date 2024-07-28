@@ -16,13 +16,15 @@ import { CreateCategoryBudgetDialog } from './create-category-budget-dialog';
 import { DeleteCategoryDialog } from './delete-category-dialog';
 import { useState } from 'react';
 import { updateCategoryBudget } from '@/actions/budget-actions';
+import { useTransactionsModel } from '../(transactions)/transactions-model';
 
 type SavingsProps = Readonly<{
   token?: string
 }>;
 
 const Savings = (props: SavingsProps) => {
-  const [budgetModel] = useBudgetModel();
+  const budgetModel = useBudgetModel();
+  const transactionsModel = useTransactionsModel();
   const createDialogModel = useDialog();
   const deleteDialogModel = useDialog();
   const [deleteDataRow, setDeleteDataRow] = useState(null);
@@ -92,6 +94,9 @@ const Savings = (props: SavingsProps) => {
     } catch (error: any) {
       return alert(error);
     }
+
+    budgetModel.refresh();
+    transactionsModel.refresh();
   };
 
   return (

@@ -61,8 +61,6 @@ export const deleteTransaction = async (token: string | undefined, id: number) =
 
   const jsonResponse = await req.json();
 
-  console.log('response', jsonResponse);
-
   if (req.status !== 200 && jsonResponse.message) {
     throw new Error(jsonResponse.message);
   }

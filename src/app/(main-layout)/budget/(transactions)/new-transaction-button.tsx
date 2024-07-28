@@ -20,7 +20,7 @@ const categoryBudgetToOption = (categoryBudget: any) => ({
 });
 
 const NewTransactionButton = (props: any) => {
-  const [budgetModel] = useBudgetModel();
+  const budgetModel = useBudgetModel();
   const transactionsModel = useTransactionsModel();
 
   const options = {
@@ -46,6 +46,7 @@ const NewTransactionButton = (props: any) => {
     await createTransaction(props.token, newTransaction);
 
     transactionsModel.refresh();
+    budgetModel.refresh();
     transactionsModel.setIsCreateDialogOpen(false);
   };
 

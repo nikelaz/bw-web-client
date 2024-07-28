@@ -4,6 +4,7 @@ import { deleteTransaction } from '@/actions/transactions-actions';
 import { Dialog, DialogFooter } from '@nikelaz/bw-ui';
 import { Button } from '@nikelaz/bw-ui';
 import { useTransactionsModel } from './transactions-model';
+import { useBudgetModel } from '../(budget-column)/budget-model';
 
 type DeleteTransactionDialogProps = Readonly<{
   isOpen: boolean,
@@ -15,6 +16,7 @@ type DeleteTransactionDialogProps = Readonly<{
 
 export const DeleteTransactionDialog = (props: DeleteTransactionDialogProps) => {
   const transactionsModel = useTransactionsModel();
+  const budgetModel = useBudgetModel();
 
   const formSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -26,6 +28,7 @@ export const DeleteTransactionDialog = (props: DeleteTransactionDialogProps) => 
     }
 
     transactionsModel.refresh();
+    budgetModel.refresh();
     props.setIsOpen(false);
   };
 

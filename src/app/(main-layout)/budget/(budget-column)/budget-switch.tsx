@@ -21,7 +21,7 @@ const monthLabels = [
 const getFormattedLabel = (date: Date) => `${monthLabels[date.getMonth()]} ${date.getFullYear()}`;
 
 export const BudgetSwitch = () => {
-  const [budgetModel] = useBudgetModel();
+  const budgetModel = useBudgetModel();
 
   const options = budgetModel.budgets.map((budget: any, index: number) => {
     const date = new Date(budget.month);

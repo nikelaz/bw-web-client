@@ -5,7 +5,7 @@ export const BudgetContainer = async ({ children, token }: any) => {
   const budgets = await fetchBudgets(token);
 
   return (
-    <BudgetModelContextProvider budgets={budgets}>
+    <BudgetModelContextProvider token={token} budgets={budgets}>
       {children}
     </BudgetModelContextProvider>
   );

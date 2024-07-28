@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { useTransactionsModel } from './transactions-model';
 import { DeleteTransactionDialog } from './delete-transaction-dialog';
 import { updateTransaction } from '@/actions/transactions-actions';
+import { useBudgetModel } from '../(budget-column)/budget-model';
 
 type IncomeProps = Readonly<{
   token?: string
@@ -22,6 +23,7 @@ type IncomeProps = Readonly<{
 
 const TransactionsGrid = (props: IncomeProps) => {
   const transactionsModel = useTransactionsModel();
+  const budgetModel = useBudgetModel();
   const [deleteDataRow, setDeleteDataRow] = useState(null);
   const deleteDialogModel = useDialog();
 
@@ -80,6 +82,9 @@ const TransactionsGrid = (props: IncomeProps) => {
     } catch (error: any) {
       return alert(error);
     }
+
+    transactionsModel.refresh();
+    budgetModel.refresh();
   };
 
   return (

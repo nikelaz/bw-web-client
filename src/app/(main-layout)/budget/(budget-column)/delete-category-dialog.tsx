@@ -1,6 +1,6 @@
 import { Dialog, DialogFooter } from '@nikelaz/bw-ui';
 import { Button } from '@nikelaz/bw-ui';
-import { useBudgetModel, BudgetActionsTypes } from './budget-model';
+import { useBudgetModel } from './budget-model';
 import { deleteCategoryBudget } from '@/actions/budget-actions';
 
 type DeleteCategoryDialogProps = Readonly<{
@@ -12,7 +12,7 @@ type DeleteCategoryDialogProps = Readonly<{
 }>;
 
 export const DeleteCategoryDialog = (props: DeleteCategoryDialogProps) => {
-  const [budgetModel, dispatch] = useBudgetModel();
+  const budgetModel = useBudgetModel();
 
   const formSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -23,13 +23,7 @@ export const DeleteCategoryDialog = (props: DeleteCategoryDialogProps) => {
       return alert(error);
     }
 
-    dispatch({
-      type: BudgetActionsTypes.DELETE_CATEGORY_BUDGET,
-      payload: {
-        budgetId: budgetModel.currentBudget.id,
-        categoryBudget: props.row,
-      },
-    });
+    budgetModel.refresh();
 
     props.setIsOpen(false);
   };

@@ -8,7 +8,7 @@ import { useDialog } from '@nikelaz/bw-ui';
 const TransactionsModelContext = createContext<any>(null);
 
 export const TransactionsModelContextProvider = (props: any) => {
-  const [budgetModel] = useBudgetModel();
+  const budgetModel = useBudgetModel();
   const [transactions, setTransactions] = useState<any>([]);
   const [isCreateDialogOpen, setIsCreateDialogOpen, onCreateDialogKeyDown] = useDialog();
   const [page, setPage] = useState(0);
