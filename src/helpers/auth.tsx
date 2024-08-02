@@ -9,5 +9,5 @@ export const useAuth = () => {
 
   user = JSON.parse(user);
 
-  return [user, token];
+  return [token, user];
 };
