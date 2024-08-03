@@ -1,8 +1,8 @@
 import { Dialog, DialogForm, Input, DialogFooter } from '@nikelaz/bw-ui';
 import { Button } from '@nikelaz/bw-ui';
-import { useBudgetModel } from './budget-model';
-import { CategoryType } from '@/types/category-type';
-import { createCategoryBudget } from '@/actions/budget-actions';
+import { useBudgetModel } from '@/view-models/budget-model';
+import { CategoryType } from '@/types/category';
+import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 
 type CreateCategoryBudgetDialogProps = Readonly<{
   isOpen: boolean,
@@ -18,6 +18,7 @@ type CreateCategoryBudgetDialogProps = Readonly<{
 
 export const CreateCategoryBudgetDialog = (props: CreateCategoryBudgetDialogProps) => {
   const budgetModel = useBudgetModel();
+  const categoryBudgetModel = useCategoryBudgetModel();
 
   const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +28,10 @@ export const CreateCategoryBudgetDialog = (props: CreateCategoryBudgetDialogProp
     const category = formData.get('category');
     const accAmount = formData.get('accAmount');
 
-    if (!amount || !category) return;
+    if (!amount || !category) {
+      alert('Amount and Category are required fields.');
+      return;
+    };
 
     const categoryBudget = {
       budget: budgetModel.currentBudget,
@@ -39,15 +43,7 @@ export const CreateCategoryBudgetDialog = (props: CreateCategoryBudgetDialogProp
       },
     };
 
-    let response;
-
-    try {
-      response = await createCategoryBudget(props.token, categoryBudget);
-    } catch (error: any) {
-      return alert(error.message);
-    }
-
-    budgetModel.refresh();
+    await categoryBudgetModel.createCategoryBudget(categoryBudget);
     props.setIsOpen(false);
   };
 

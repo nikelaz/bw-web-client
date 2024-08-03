@@ -9,29 +9,24 @@ import {
   HeaderCell
 } from '@nikelaz/bw-ui';
 import { ColDef } from '@nikelaz/bw-ui/dist/components/data-grid/data-grid.types';
-import { useBudgetModel } from './budget-model';
-import { CategoryType } from '@/types/category-type';
+import { CategoryType } from '@/types/category';
 import { useDialog } from '@nikelaz/bw-ui';
 import { CreateCategoryBudgetDialog } from './create-category-budget-dialog';
 import { DeleteCategoryDialog } from './delete-category-dialog';
 import { useState } from 'react';
-import { updateCategoryBudget } from '@/actions/budget-actions';
-import { useTransactionsModel } from '../(transactions)/transactions-model';
+import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 
 type SavingsProps = Readonly<{
   token?: string
 }>;
 
 const Savings = (props: SavingsProps) => {
-  const budgetModel = useBudgetModel();
-  const transactionsModel = useTransactionsModel();
+  const categoryBudgetModel = useCategoryBudgetModel();
   const createDialogModel = useDialog();
   const deleteDialogModel = useDialog();
   const [deleteDataRow, setDeleteDataRow] = useState(null);
 
-  if (budgetModel === null) return null;
-
-  const categoryBudgets = budgetModel.categoryBudgetsByType[CategoryType.SAVINGS];
+  const categoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.SAVINGS];
 
   const colDefs: Array<ColDef> = [
     {
@@ -77,26 +72,15 @@ const Savings = (props: SavingsProps) => {
 
   const rowDeleteHandler = async (data: any) => {
     setDeleteDataRow(data);
-
-    // Open delete confirmation dialog
-    deleteDialogModel[1](true);
+    deleteDialogModel[1](true); // open delete confirmation dialog
   };
 
   const rowChangeHandler = async ({ rowData }: any) => {
-    const categoryBudget = {
+    await categoryBudgetModel.updateCategoryBudget({
       id: rowData.id,
       amount: rowData.amount,
       category: rowData.category
-    };
-
-    try {
-      await updateCategoryBudget(props.token, categoryBudget);
-    } catch (error: any) {
-      return alert(error);
-    }
-
-    budgetModel.refresh();
-    transactionsModel.refresh();
+    });
   };
 
   return (

@@ -14,66 +14,21 @@ import {
   Select,
   Label
 } from '@nikelaz/bw-ui';
-import { useBudgetModel } from './budget-model';
 import { FormEvent } from 'react';
-import { createBudget } from '@/actions/budget-actions';
-import { useTransactionsModel } from '../(transactions)/transactions-model';
+import { useBudgetModel } from '@/view-models/budget-model';
+import { monthLabels, getFormattedLabel } from '@/helpers/date-formatting-utils';
+import type { Budget } from '@/types/budget';
 
-const monthLabels = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-const getFormattedLabel = (date: Date) => `${monthLabels[date.getMonth()]} ${date.getFullYear()}`;
-
-type BudgetSwitchProps = Readonly<{
-  token?: string,
-}>;
-
-export const BudgetSwitch = (props: BudgetSwitchProps) => {
-  const [isCreateDialogOpen, setIsCreateDialogOpen, onCreateDialogKeyDown] = useDialog();
-  const budgetModel = useBudgetModel();
-
-  const options = budgetModel.budgets.map((budget: any, index: number) => {
-    const date = new Date(budget.month);
-
-    return {
-      label: getFormattedLabel(date),
-      value: budget,
-      isActive: budget.id === budgetModel.currentBudget.id,
-    };
-  });
-
-  const budgetExistsForMonth = (monthIndex: number) => {
-    for (let i = 0; i < budgetModel.budgets.length; i++) {
-      const budget = budgetModel.budgets[i];
-      const tmpDate = new Date(budget.month);
-      if (tmpDate.getMonth() === monthIndex) return true;
-    }
-
-    return false;
-  };
-
+const generateNewBudgetOptions = (budgetModel: any) => {
   const now = new Date();
   const currentYear = now.getFullYear();
   const nextYear = currentYear + 1;
-
   const newBudgetOptions = [];
 
   for (let i = 0; i < monthLabels.length; i++) {
     const optionDate = new Date();
     optionDate.setMonth(i);
-    const budgetExists = budgetExistsForMonth(i);
+    const budgetExists = budgetModel.budgetExistsForMonth(i);
     const isPast = now.getMonth() > i;
 
     if (isPast && !budgetExists) continue;
@@ -81,7 +36,7 @@ export const BudgetSwitch = (props: BudgetSwitchProps) => {
     newBudgetOptions.push({
       label: `${monthLabels[i]} ${currentYear}`,
       value: optionDate.toISOString(),
-      disabled: budgetExistsForMonth(i),
+      disabled: budgetModel.budgetExistsForMonth(i),
     });
   }
 
@@ -96,6 +51,27 @@ export const BudgetSwitch = (props: BudgetSwitchProps) => {
       disabled: false,
     });
   }
+
+  return newBudgetOptions;
+}
+
+type BudgetSwitchProps = Readonly<{
+  token?: string,
+}>;
+
+export const BudgetSwitch = (props: BudgetSwitchProps) => {
+  const budgetModel = useBudgetModel();
+  const [isCreateDialogOpen, setIsCreateDialogOpen, onCreateDialogKeyDown] = useDialog();
+
+  const options = budgetModel.budgets.map((budget: Budget) => {
+    const date = new Date(budget.month);
+
+    return {
+      label: getFormattedLabel(date),
+      value: budget.id,
+      isActive: budget.id === budgetModel.currentBudget.id,
+    };
+  });
   
   const optionsWithCreateButton = [
     ...options,
@@ -106,26 +82,32 @@ export const BudgetSwitch = (props: BudgetSwitchProps) => {
           <span className="w-max">Create New Budget</span>
         </>
       ),
-      value: 0,
+      value: 'create-btn',
       onClick: () => setIsCreateDialogOpen(true)
     }
   ];
 
+  const newBudgetOptions = generateNewBudgetOptions(budgetModel);
+
   const dropdownChangeHandler = (options: Array<DropdownOption>) => {
     const activeOption = options.find(option => option.isActive);
     if (!activeOption) return;
-    budgetModel.setCurrentBudgetId(activeOption.value.id);
+    budgetModel.setCurrentBudgetId(activeOption.value);
   };
 
   const createBudgetFormSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const month = formData.get('month');
-    const copyFrom = formData.get('copyFrom');
-    if (!month || !copyFrom) return;
-    await createBudget(props.token, month.toString(), parseInt(copyFrom.toString()));
+
+    await budgetModel.createBudget(
+      {
+        month: formData.get('month')?.toString(),
+      },
+      {
+        id: formData.get('copyFrom')?.toString(),
+      }
+    );
     setIsCreateDialogOpen(false);
-    await budgetModel.refresh();
   };
 
   return (
@@ -156,8 +138,8 @@ export const BudgetSwitch = (props: BudgetSwitchProps) => {
             <div>
               <Label htmlFor="copyFrom">Copy From</Label>
               <Select name="copyFrom" id="copyFrom">
-                {options.map((option: any, index: number) => (
-                  <option key={option.value.id} value={option.value.id}>{option.label}</option>
+                {options.map((option: any) => (
+                  <option key={option.value} value={option.value.id}>{option.label}</option>
                 ))}
               </Select>
             </div>

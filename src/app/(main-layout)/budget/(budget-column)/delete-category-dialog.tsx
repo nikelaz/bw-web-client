@@ -1,7 +1,6 @@
 import { Dialog, DialogFooter } from '@nikelaz/bw-ui';
 import { Button } from '@nikelaz/bw-ui';
-import { useBudgetModel } from './budget-model';
-import { deleteCategoryBudget } from '@/actions/budget-actions';
+import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 
 type DeleteCategoryDialogProps = Readonly<{
   isOpen: boolean,
@@ -12,19 +11,11 @@ type DeleteCategoryDialogProps = Readonly<{
 }>;
 
 export const DeleteCategoryDialog = (props: DeleteCategoryDialogProps) => {
-  const budgetModel = useBudgetModel();
+  const categoryBudgetModel = useCategoryBudgetModel();
 
   const formSubmitHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    
-    try {
-      await deleteCategoryBudget(props.token, props.row.id);
-    } catch (error: any) {
-      return alert(error);
-    }
-
-    budgetModel.refresh();
-
+    event.preventDefault();    
+    await categoryBudgetModel.deleteCategoryBudget({ id: props.row.id });
     props.setIsOpen(false);
   };
 

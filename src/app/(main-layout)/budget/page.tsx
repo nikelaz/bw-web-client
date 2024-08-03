@@ -1,11 +1,10 @@
 import { useAuth } from '@/helpers/auth';
-import ModelsContainer from '../../models-container';
+import ModelsContainer from './models-container';
 import Income from './(budget-column)/income';
 import Expenses from './(budget-column)/expenses';
 import Debt from './(budget-column)/debt';
 import Savings from './(budget-column)/savings';
 import { BudgetSwitch } from './(budget-column)/budget-switch';
-import { TransactionsModelContextProvider } from './(transactions)/transactions-model';
 import TransactionsGrid from './(transactions)/transactions-grid';
 import NewTransactionButton from './(transactions)/new-transaction-button';
 

@@ -1,25 +1,9 @@
 'use server';
 
 import { serviceUrl } from '@/config';
+import { CategoryBudget } from '@/types/category-budget';
 
-export const fetchTransactions = async (token: string | undefined, budgetId: number | undefined, limit: number, offset: number) => {
-  if (!token || budgetId === undefined) return;
-
-  const reqOptions = {
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  };
-
-  const req = await fetch(`${serviceUrl}/transactions/${budgetId}?limit=${limit}&offset=${offset}`, reqOptions);
-
-  const jsonResponse = await req.json();
-
-  return jsonResponse;
-};
-
-export const createTransaction = async (token: string | undefined, transaction: any) => {
+export const createCategoryBudget = async (token: string | undefined, categoryBudget: any) => {
   if (!token) return;
 
   const reqOptions = {
@@ -28,10 +12,10 @@ export const createTransaction = async (token: string | undefined, transaction: 
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ transaction })
+    body: JSON.stringify({ categoryBudget })
   };
 
-  const req = await fetch(`${serviceUrl}/transactions`, reqOptions);
+  const req = await fetch(`${serviceUrl}/category-budgets`, reqOptions);
 
   const jsonResponse = await req.json();
 
@@ -46,18 +30,17 @@ export const createTransaction = async (token: string | undefined, transaction: 
   return jsonResponse;
 };
 
-export const deleteTransaction = async (token: string | undefined, id: number) => {
+export const deleteCategoryBudget = async (token: string | undefined, categoryBudget: CategoryBudget) => {
   if (!token) return;
 
   const reqOptions = {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
   };
 
-  const req = await fetch(`${serviceUrl}/transactions/${id}`, reqOptions);
+  const req = await fetch(`${serviceUrl}/category-budgets/${categoryBudget.id}`, reqOptions);
 
   const jsonResponse = await req.json();
 
@@ -72,7 +55,7 @@ export const deleteTransaction = async (token: string | undefined, id: number) =
   return jsonResponse;
 };
 
-export const updateTransaction = async (token: string | undefined, transaction: any) => {
+export const updateCategoryBudget = async (token: string | undefined, categoryBudget: any) => {
   if (!token) return;
 
   const reqOptions = {
@@ -81,10 +64,10 @@ export const updateTransaction = async (token: string | undefined, transaction: 
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ transaction })
+    body: JSON.stringify({ categoryBudget })
   };
 
-  const req = await fetch(`${serviceUrl}/transactions`, reqOptions);
+  const req = await fetch(`${serviceUrl}/category-budgets`, reqOptions);
 
   const jsonResponse = await req.json();
 

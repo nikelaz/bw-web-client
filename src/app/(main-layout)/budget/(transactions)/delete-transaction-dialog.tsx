@@ -3,15 +3,16 @@
 import { deleteTransaction } from '@/actions/transactions-actions';
 import { Dialog, DialogFooter } from '@nikelaz/bw-ui';
 import { Button } from '@nikelaz/bw-ui';
-import { useTransactionsModel } from './transactions-model';
-import { useBudgetModel } from '../(budget-column)/budget-model';
+import { useTransactionsModel } from '@/view-models/transactions-model';
+import { useBudgetModel } from '@/view-models/budget-model';
+import type { Transaction } from '@/types/transaction';
 
 type DeleteTransactionDialogProps = Readonly<{
   isOpen: boolean,
   setIsOpen: Function,
   onKeyDown: React.KeyboardEventHandler<Element>,
   token?: string,
-  row: any,
+  row?: Transaction,
 }>;
 
 export const DeleteTransactionDialog = (props: DeleteTransactionDialogProps) => {
@@ -20,6 +21,8 @@ export const DeleteTransactionDialog = (props: DeleteTransactionDialogProps) => 
 
   const formSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!props.row) return;
 
     try {
       await deleteTransaction(props.token, props.row.id);
@@ -41,7 +44,7 @@ export const DeleteTransactionDialog = (props: DeleteTransactionDialogProps) => 
     >
       <form onSubmit={formSubmitHandler} method="dialog">
         <p className="mb-3">You are about to delete a transaction:</p>
-        <div className="text-lg font-semibold p-2 pl-3 pr-3 bg-grey1 rounded-lg border border-grey2 mb-3">{props.row?.title || props.row?.categoryBudget.category.title}</div>
+        <div className="text-lg font-semibold p-2 pl-3 pr-3 bg-grey1 rounded-lg border border-grey2 mb-3">{props.row?.title || props.row?.categoryBudget?.category?.title}</div>
         <p>Are you sure?</p>
         <DialogFooter className='gap-4'>
           <Button style="link" type="button" onClick={() => props.setIsOpen(false)} autoFocus={true}>Cancel</Button> 

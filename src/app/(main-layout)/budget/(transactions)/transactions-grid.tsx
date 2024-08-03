@@ -12,10 +12,10 @@ import {
 } from '@nikelaz/bw-ui';
 import { ColDef } from '@nikelaz/bw-ui/dist/components/data-grid/data-grid.types';
 import { useState } from 'react';
-import { useTransactionsModel } from './transactions-model';
+import { useTransactionsModel } from '@/view-models/transactions-model';
 import { DeleteTransactionDialog } from './delete-transaction-dialog';
 import { updateTransaction } from '@/actions/transactions-actions';
-import { useBudgetModel } from '../(budget-column)/budget-model';
+import { useBudgetModel } from '@/view-models/budget-model';
 
 type IncomeProps = Readonly<{
   token?: string
@@ -24,7 +24,7 @@ type IncomeProps = Readonly<{
 const TransactionsGrid = (props: IncomeProps) => {
   const transactionsModel = useTransactionsModel();
   const budgetModel = useBudgetModel();
-  const [deleteDataRow, setDeleteDataRow] = useState(null);
+  const [deleteDataRow, setDeleteDataRow] = useState();
   const deleteDialogModel = useDialog();
 
   const transactions = transactionsModel.transactions;

@@ -9,10 +9,11 @@ import {
   Input,
   Select
 } from '@nikelaz/bw-ui';
-import { useBudgetModel } from '../(budget-column)/budget-model';
-import { CategoryType } from '@/types/category-type';
+import { useBudgetModel } from '@/view-models/budget-model';
+import { CategoryType } from '@/types/category';
 import { createTransaction } from '@/actions/transactions-actions';
-import { useTransactionsModel } from './transactions-model';
+import { useTransactionsModel } from '@/view-models/transactions-model';
+import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 
 const categoryBudgetToOption = (categoryBudget: any) => ({
   label: categoryBudget.category.title,
@@ -21,13 +22,14 @@ const categoryBudgetToOption = (categoryBudget: any) => ({
 
 const NewTransactionButton = (props: any) => {
   const budgetModel = useBudgetModel();
+  const categoryBudgetModel = useCategoryBudgetModel();
   const transactionsModel = useTransactionsModel();
 
   const options = {
-    [CategoryType.INCOME]: budgetModel.categoryBudgetsByType[CategoryType.INCOME].map(categoryBudgetToOption),
-    [CategoryType.EXPENSE]: budgetModel.categoryBudgetsByType[CategoryType.EXPENSE].map(categoryBudgetToOption),
-    [CategoryType.DEBT]: budgetModel.categoryBudgetsByType[CategoryType.DEBT].map(categoryBudgetToOption),
-    [CategoryType.SAVINGS]: budgetModel.categoryBudgetsByType[CategoryType.SAVINGS].map(categoryBudgetToOption),
+    [CategoryType.INCOME]: categoryBudgetModel.categoryBudgetsByType[CategoryType.INCOME].map(categoryBudgetToOption),
+    [CategoryType.EXPENSE]: categoryBudgetModel.categoryBudgetsByType[CategoryType.EXPENSE].map(categoryBudgetToOption),
+    [CategoryType.DEBT]: categoryBudgetModel.categoryBudgetsByType[CategoryType.DEBT].map(categoryBudgetToOption),
+    [CategoryType.SAVINGS]: categoryBudgetModel.categoryBudgetsByType[CategoryType.SAVINGS].map(categoryBudgetToOption),
   }
 
   const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
