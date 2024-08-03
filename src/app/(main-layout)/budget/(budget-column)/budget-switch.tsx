@@ -15,6 +15,9 @@ import {
   Label
 } from '@nikelaz/bw-ui';
 import { useBudgetModel } from './budget-model';
+import { FormEvent } from 'react';
+import { createBudget } from '@/actions/budget-actions';
+import { useTransactionsModel } from '../(transactions)/transactions-model';
 
 const monthLabels = [
   'January',
@@ -33,7 +36,11 @@ const monthLabels = [
 
 const getFormattedLabel = (date: Date) => `${monthLabels[date.getMonth()]} ${date.getFullYear()}`;
 
-export const BudgetSwitch = () => {
+type BudgetSwitchProps = Readonly<{
+  token?: string,
+}>;
+
+export const BudgetSwitch = (props: BudgetSwitchProps) => {
   const [isCreateDialogOpen, setIsCreateDialogOpen, onCreateDialogKeyDown] = useDialog();
   const budgetModel = useBudgetModel();
 
@@ -90,18 +97,19 @@ export const BudgetSwitch = () => {
     });
   }
   
-  console.log('newBudgetOptions', newBudgetOptions);
-
-  options.push({
-    label: (
-      <>
-        <Icon className="mr-3" type={IconTypes.Plus} width={14} height={14} fill="currentColor" />
-        <span className="w-max">Create New Budget</span>
-      </>
-    ),
-    value: 0,
-    onClick: () => setIsCreateDialogOpen(true)
-  });
+  const optionsWithCreateButton = [
+    ...options,
+    {
+      label: (
+        <>
+          <Icon className="mr-3" type={IconTypes.Plus} width={14} height={14} fill="currentColor" />
+          <span className="w-max">Create New Budget</span>
+        </>
+      ),
+      value: 0,
+      onClick: () => setIsCreateDialogOpen(true)
+    }
+  ];
 
   const dropdownChangeHandler = (options: Array<DropdownOption>) => {
     const activeOption = options.find(option => option.isActive);
@@ -109,10 +117,21 @@ export const BudgetSwitch = () => {
     budgetModel.setCurrentBudgetId(activeOption.value.id);
   };
 
+  const createBudgetFormSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const month = formData.get('month');
+    const copyFrom = formData.get('copyFrom');
+    if (!month || !copyFrom) return;
+    await createBudget(props.token, month.toString(), parseInt(copyFrom.toString()));
+    setIsCreateDialogOpen(false);
+    await budgetModel.refresh();
+  };
+
   return (
     <>
       <Dropdown
-        options={options}
+        options={optionsWithCreateButton}
         onChange={dropdownChangeHandler}
       >
         <MonthsSwitch>{getFormattedLabel(new Date(budgetModel.currentBudget.month))}</MonthsSwitch>
@@ -124,27 +143,29 @@ export const BudgetSwitch = () => {
         hasCloseBtn={true}
         title='Create a New Budget'
       >
-        <DialogForm>
-          <div>
-            <Label>For Month</Label>
-            <Select>
-              {newBudgetOptions.map((option: any) => (
-                <option value={option.value} disabled={option.disabled}>{option.label}</option>
-              ))}
-            </Select>
-          </div>
-          <div>
-            <Label>Copy From</Label>
-            <Select>
-              {options.map((option: any) => (
-                <option>{option.label}</option>
-              ))}
-            </Select>
-          </div>
-        </DialogForm>
-        <DialogFooter>
-          <Button autoFocus={true}>Create Budget</Button>
-        </DialogFooter>
+        <form onSubmit={createBudgetFormSubmitHandler}>
+          <DialogForm>
+            <div>
+              <Label htmlFor="month">For Month</Label>
+              <Select autoFocus={true} name="month" id="month">
+                {newBudgetOptions.map((option: any) => (
+                  <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="copyFrom">Copy From</Label>
+              <Select name="copyFrom" id="copyFrom">
+                {options.map((option: any, index: number) => (
+                  <option key={option.value.id} value={option.value.id}>{option.label}</option>
+                ))}
+              </Select>
+            </div>
+          </DialogForm>
+          <DialogFooter>
+            <Button>Create Budget</Button>
+          </DialogFooter>
+        </form>
       </Dialog>
     </>
   );

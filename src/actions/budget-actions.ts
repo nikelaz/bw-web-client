@@ -97,3 +97,40 @@ export const updateCategoryBudget = async (token: string | undefined, categoryBu
 
   return jsonResponse;
 };
+
+export const createBudget = async (
+  token: string | undefined,
+  monthISOString: string,
+  copyFromId: number) => {
+  if (!token) return;
+
+  const reqOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      budget: {
+        month: monthISOString,
+      },
+      copyFrom: {
+        id: copyFromId
+      }
+    })
+  };
+
+  const req = await fetch(`${serviceUrl}/budgets`, reqOptions);
+
+  const jsonResponse = await req.json();
+
+  if (req.status !== 200 && jsonResponse.message) {
+    throw new Error(jsonResponse.message);
+  }
+
+  if (req.status !== 200 && !jsonResponse.message) {
+    throw new Error('An unexpected error occured. Please try again later.')
+  }
+
+  return jsonResponse;
+};

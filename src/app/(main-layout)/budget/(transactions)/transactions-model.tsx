@@ -7,30 +7,29 @@ import { useDialog } from '@nikelaz/bw-ui';
 
 const TransactionsModelContext = createContext<any>(null);
 
+const calculateTotalPages = (transactionsCount: number, perPage: number) => Math.ceil(transactionsCount /  perPage)
+
 export const TransactionsModelContextProvider = (props: any) => {
+  const perPage = 6;
   const budgetModel = useBudgetModel();
-  const [transactions, setTransactions] = useState<any>([]);
+  const [transactions, setTransactions] = useState(props.transactions);
   const [isCreateDialogOpen, setIsCreateDialogOpen, onCreateDialogKeyDown] = useDialog();
   const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const perPage = 6;
+  const [totalPages, setTotalPages] = useState(calculateTotalPages(parseFloat(props.transactionsCount), perPage));
+  const [budgetChanged, setBudgetChanged] = useState(false);
 
-  const fetchData = async () => {
+  const refresh = async () => {
+    console.log('refresh transactions');
     const response = await fetchTransactions(props.token, budgetModel.currentBudgetId, perPage, page * perPage);
     setTransactions(response.transactions);
-    setTotalPages(Math.ceil(parseFloat(response.count) /  perPage));
+    setTotalPages(calculateTotalPages(parseFloat(response.count),  perPage));
   };
 
   useEffect(() => {
-    fetchData();
-  }, [setTransactions, props.token, budgetModel.currentBudgetId, page]);
-
-  const createTransaction = (newTransaction: any) => {
-    setTransactions([
-      ...transactions,
-      newTransaction
-    ]);
-  };
+    if (!budgetChanged && budgetModel.currentBudgetId === props.currentBudgetId) return;
+    refresh();
+    setBudgetChanged(true);
+  }, [budgetModel.currentBudgetId]);
 
   const nextPage = () => {
     setPage(page + 1);
@@ -42,7 +41,6 @@ export const TransactionsModelContextProvider = (props: any) => {
 
   const model = {
     transactions,
-    createTransaction,
     isCreateDialogOpen,
     setIsCreateDialogOpen,
     onCreateDialogKeyDown,
@@ -50,7 +48,7 @@ export const TransactionsModelContextProvider = (props: any) => {
     page,
     nextPage,
     prevPage,
-    refresh: fetchData,
+    refresh,
   };
 
   return (
