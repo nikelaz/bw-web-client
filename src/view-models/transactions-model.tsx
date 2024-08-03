@@ -43,6 +43,10 @@ export class TransactionsViewModel {
       this.refresh();
       this.setBudgetChanged(true);
     }, [this.budgetModel.currentBudgetId]);
+
+    useEffect(() => {
+      this.refresh();
+    }, [this.page]);
   }
 
   async refresh() {

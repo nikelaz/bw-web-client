@@ -139,7 +139,7 @@ export const BudgetSwitch = (props: BudgetSwitchProps) => {
               <Label htmlFor="copyFrom">Copy From</Label>
               <Select name="copyFrom" id="copyFrom">
                 {options.map((option: any) => (
-                  <option key={option.value} value={option.value.id}>{option.label}</option>
+                  <option key={option.value} value={option.value}>{option.label}</option>
                 ))}
               </Select>
             </div>

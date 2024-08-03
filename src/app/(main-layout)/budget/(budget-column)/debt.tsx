@@ -77,7 +77,7 @@ const Debt = (props: DebtProps) => {
   };
 
   const rowChangeHandler = async ({ rowData }: { rowData: CategoryBudget }) => {
-    await categoryBudgetModel.updateCategoryBudget(props.token, {
+    await categoryBudgetModel.updateCategoryBudget({
       id: rowData.id,
       amount: rowData.amount,
       category: rowData.category

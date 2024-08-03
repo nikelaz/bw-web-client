@@ -6,7 +6,8 @@ import type { CategoryBudget } from '@/types/category-budget';
 import { CategoryType } from '@/types/category';
 import {
   updateCategoryBudget as updateCategoryBudgetAction,
-  deleteCategoryBudget as deleteCategoryBudgetAction
+  deleteCategoryBudget as deleteCategoryBudgetAction,
+  createCategoryBudget as createCategoryBudgetAction
 } from '@/actions/category-budget-actions';
 import { useTransactionsModel } from './transactions-model';
 
@@ -36,7 +37,7 @@ export class CategoryBudgetViewModel {
     };
 
     this.categoryBudgets.forEach((categoryBudget: CategoryBudget) => {
-      if (!categoryBudget.category || !categoryBudget.category.type) return;
+      if (!categoryBudget.category || categoryBudget.category.type === undefined) return;
       this.categoryBudgetsByType[categoryBudget.category.type].push(categoryBudget);
     });
   }
@@ -49,6 +50,12 @@ export class CategoryBudgetViewModel {
 
   async deleteCategoryBudget(categoryBudget: CategoryBudget) {
     await deleteCategoryBudgetAction(this.token, categoryBudget);
+    this.budgetModel.refresh();
+    this.transactionsModel.refresh();
+  }
+
+  async createCategoryBudget(categoryBudget: CategoryBudget) {
+    await createCategoryBudgetAction(this.token, categoryBudget);
     this.budgetModel.refresh();
     this.transactionsModel.refresh();
   }

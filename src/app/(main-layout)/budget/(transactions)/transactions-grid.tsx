@@ -107,10 +107,10 @@ const TransactionsGrid = (props: IncomeProps) => {
             <Cell textAlign='right' colSpan={3}>
               <Pagination>
                 {transactionsModel.page !== 0 && transactions.totalPages !== 1 ? (
-                  <Button style='link' icon={IconTypes.ChevronLeft} onClick={transactionsModel.prevPage}>Previous</Button>
+                  <Button style='link' icon={IconTypes.ChevronLeft} onClick={() => transactionsModel.prevPage()}>Previous</Button>
                 ) : null}
                 {(transactionsModel.page + 1) !== transactionsModel.totalPages ? (
-                  <Button style='link' icon={IconTypes.ChevronRight} iconPosition='right' onClick={transactionsModel.nextPage}>Next</Button>
+                  <Button style='link' icon={IconTypes.ChevronRight} iconPosition='right' onClick={() => transactionsModel.nextPage()}>Next</Button>
                 ) : null }
               </Pagination>
             </Cell>
