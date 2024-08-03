@@ -1,5 +1,5 @@
 import { useAuth } from '@/helpers/auth';
-import ModelsContainer from './models-container';
+import ModelsContainer from '@/app/(main-layout)/budget/models-container';
 import Income from './(budget-column)/income';
 import Expenses from './(budget-column)/expenses';
 import Debt from './(budget-column)/debt';
@@ -17,13 +17,13 @@ const Budget = async () => {
         {/* left column */}
         <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6">
             <div className="flex justify-between z-1">
-              <BudgetSwitch token={token} />
+              <BudgetSwitch />
               <NewTransactionButton token={token} />
             </div>
-            <Income token={token} />
-            <Expenses token={token} />
-            <Debt token={token} />
-            <Savings token={token} />
+            <Income />
+            <Expenses />
+            <Debt />
+            <Savings />
         </div>
 
         {/* right column */}

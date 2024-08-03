@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteTransaction } from '@/actions/transactions-actions';
+import { deleteTransaction } from '@/actions/transaction-actions';
 import { Dialog, DialogFooter } from '@nikelaz/bw-ui';
 import { Button } from '@nikelaz/bw-ui';
 import { useTransactionsModel } from '@/view-models/transactions-model';

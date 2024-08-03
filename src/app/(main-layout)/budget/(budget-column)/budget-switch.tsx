@@ -55,11 +55,7 @@ const generateNewBudgetOptions = (budgetModel: any) => {
   return newBudgetOptions;
 }
 
-type BudgetSwitchProps = Readonly<{
-  token?: string,
-}>;
-
-export const BudgetSwitch = (props: BudgetSwitchProps) => {
+export const BudgetSwitch = () => {
   const budgetModel = useBudgetModel();
   const [isCreateDialogOpen, setIsCreateDialogOpen, onCreateDialogKeyDown] = useDialog();
 

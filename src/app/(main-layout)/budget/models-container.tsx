@@ -1,5 +1,5 @@
 import { fetchBudgets } from '@/actions/budget-actions';
-import { fetchTransactions } from '@/actions/transactions-actions';
+import { fetchTransactions } from '@/actions/transaction-actions';
 import findClosestBudgetDate from '@/helpers/find-closest-budget-date';
 import { BudgetModelContextProvider } from '@/view-models/budget-model';
 import { TransactionsModelContextProvider } from '@/view-models/transactions-model';

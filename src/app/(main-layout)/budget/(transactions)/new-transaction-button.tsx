@@ -11,7 +11,7 @@ import {
 } from '@nikelaz/bw-ui';
 import { useBudgetModel } from '@/view-models/budget-model';
 import { CategoryType } from '@/types/category';
-import { createTransaction } from '@/actions/transactions-actions';
+import { createTransaction } from '@/actions/transaction-actions';
 import { useTransactionsModel } from '@/view-models/transactions-model';
 import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 

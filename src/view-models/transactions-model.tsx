@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { BudgetViewModel, useBudgetModel } from '@/view-models/budget-model';
-import { fetchTransactions } from '@/actions/transactions-actions';
+import { fetchTransactions } from '@/actions/transaction-actions';
 import { useDialog } from '@nikelaz/bw-ui';
 import { calculateTotalPages } from '@/helpers/pagination-utils';
 import type { Transaction } from '@/types/transaction';

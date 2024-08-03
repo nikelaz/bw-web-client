@@ -8,7 +8,6 @@ type CreateCategoryBudgetDialogProps = Readonly<{
   isOpen: boolean,
   setIsOpen: Function,
   onKeyDown: React.KeyboardEventHandler<Element>,
-  token?: string,
   categoryType: CategoryType,
   dialogHeading: string,
   exampleCategory: string,

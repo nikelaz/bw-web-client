@@ -14,7 +14,7 @@ import { ColDef } from '@nikelaz/bw-ui/dist/components/data-grid/data-grid.types
 import { useState } from 'react';
 import { useTransactionsModel } from '@/view-models/transactions-model';
 import { DeleteTransactionDialog } from './delete-transaction-dialog';
-import { updateTransaction } from '@/actions/transactions-actions';
+import { updateTransaction } from '@/actions/transaction-actions';
 import { useBudgetModel } from '@/view-models/budget-model';
 
 type IncomeProps = Readonly<{
