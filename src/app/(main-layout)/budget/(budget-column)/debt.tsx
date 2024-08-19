@@ -18,6 +18,7 @@ const Debt = () => {
       newItemCTALabel="New Loan"
       newItemDialogHeading="Create New Loan"
       exampleCategory="Mortgage"
+      categoryType={CategoryType.DEBT}
     />
   );
 };

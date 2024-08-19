@@ -30,6 +30,7 @@ type CategoryBudgetGridProps = Readonly<{
   newItemCTALabel: string,
   newItemDialogHeading: string,
   exampleCategory: string,
+  categoryType: CategoryType
 }>;
 
 const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
@@ -148,13 +149,13 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       />
 
       <CreateCategoryBudgetDialog
-        categoryType={CategoryType.DEBT}
+        categoryType={props.categoryType}
         dialogHeading={props.newItemDialogHeading}
         exampleCategory={props.exampleCategory}
         isOpen={createDialogModel[0]}
         setIsOpen={createDialogModel[1]}
         onKeyDown={createDialogModel[2]}
-        showAccAmountField={true}
+        showAccAmountField={props.hasAccAmount}
         accAmountLabel={props.accAmountLabel}
       />
       <DeleteCategoryDialog

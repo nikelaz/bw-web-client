@@ -18,6 +18,7 @@ const Savings = () => {
       newItemCTALabel="New Fund"
       newItemDialogHeading="Create New Fund"
       exampleCategory="College Fund"
+      categoryType={CategoryType.SAVINGS}
     />
   );
 };

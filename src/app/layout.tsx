@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { Lato } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.sass';
 
-const lato = Lato({
-  weight: ['400'],
+const inter = Inter({
+  weight: 'variable',
   subsets: ['latin']
 });
 
@@ -18,7 +18,7 @@ type RootLayoutProps = Readonly<{
 
 const RootLayout = (props: RootLayoutProps) => (
   <html lang="en">
-    <body className={lato.className}>{props.children}</body>
+    <body className={inter.className}>{props.children}</body>
   </html>
 );
 

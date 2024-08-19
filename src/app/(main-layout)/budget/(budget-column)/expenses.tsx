@@ -17,6 +17,7 @@ const Expenses = () => {
       newItemCTALabel="New Category"
       newItemDialogHeading="Create New Category"
       exampleCategory="Groceries"
+      categoryType={CategoryType.EXPENSE}
     />
   );
 };

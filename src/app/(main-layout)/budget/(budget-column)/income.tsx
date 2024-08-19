@@ -17,6 +17,7 @@ const Income = () => {
       newItemCTALabel="New Income"
       newItemDialogHeading="Create New Income"
       exampleCategory="Salary"
+      categoryType={CategoryType.INCOME}
     />
   );
 };
