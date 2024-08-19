@@ -77,6 +77,16 @@ const SankeyChart = () => {
       }
     };
 
+    const labelRenderer = (context: any) => {
+      let categoryLabel = context.raw.from;
+
+      if (categoryLabel === 'Income') {
+        categoryLabel = context.raw.to;
+      }
+
+      return `${categoryLabel}: ${context.raw.flow}$`;
+    };
+
     chart = new Chart(ctx, {
       type: 'sankey',
       options: {
@@ -87,7 +97,7 @@ const SankeyChart = () => {
           tooltip: {
             displayColors: false,
             callbacks: {
-              label: (context: any) => `${context.raw.from}: ${context.raw.flow}$`,
+              label: labelRenderer
             },
           },
         },
@@ -115,12 +125,12 @@ const SankeyChart = () => {
 
     return () => {
       chart.destroy();
-      // setIsLoading(true);
+      setIsLoading(true);
     };
   }, [canvasRef, incomeChartSegments, totalSavings, totalExpenses, totalDebt])
 
   return (
-    <div className="p-6 bg-white rounded-xl" style={{ paddingRight: '1.6rem' }}>
+    <div className="p-6 bg-white rounded-xl" style={{ paddingRight: '0.55rem' }}>
       <div className="flex items-center justify-center" style={{position: 'relative', width: '100%', aspectRatio: '21/8'}}>
         { isLoading ? <Loader width={50} height={50} className="absolute text-grey9" /> : null }
         <canvas ref={canvasRef} />
