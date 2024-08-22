@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { CategoryBudgetViewModel, useCategoryBudgetModel } from '@/view-models/category-budget-model';
 import { CategoryType } from '@/types/category';
 import { Loader } from '@nikelaz/bw-ui';
+import { useUserModel } from '@/view-models/user-model';
 
 Chart.register(...registerables);
 Chart.register(SankeyController, Flow);
@@ -39,14 +40,13 @@ class ChartColorsProvider {
 const SankeyChart = () => {
   const [isLoading, setIsLoading] = useState(true);
   const categoryBudgetModel: CategoryBudgetViewModel = useCategoryBudgetModel();
+  const userModel = useUserModel();
   const incomeCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.INCOME];
   const incomeChartSegments = incomeCategoryBudgets.map(categoryBudget => ({
     from: categoryBudget.category?.title,
     to: 'Income',
     flow: categoryBudget.amount,
   }));
-
-  incomeChartSegments.sort((x, y) => y.flow - x.flow);
 
   const savingsCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.SAVINGS];
   const totalSavings = savingsCategoryBudgets.reduce((accumulator, categoryBudget) => accumulator += categoryBudget.amount, 0);
@@ -57,6 +57,14 @@ const SankeyChart = () => {
   const debtCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.DEBT];
   const totalDebt = debtCategoryBudgets.reduce((accumulator, categoryBudget) => accumulator += categoryBudget.amount, 0);
 
+  const otherChartSegments = [
+    { from: 'Income', to: 'Savings', flow: totalSavings },
+    { from: 'Income', to: 'Expenses', flow: totalExpenses },
+    { from: 'Income', to: 'Debt', flow: totalDebt },
+  ];
+
+  incomeChartSegments.sort((x, y) => y.flow - x.flow);
+  otherChartSegments.sort((x, y) => y.flow - x.flow);
 
   const canvasRef: React.MutableRefObject<HTMLCanvasElement | null> = useRef(null);
   let chart: any = null;
@@ -84,7 +92,7 @@ const SankeyChart = () => {
         categoryLabel = context.raw.to;
       }
 
-      return `${categoryLabel}: ${context.raw.flow}$`;
+      return `${categoryLabel}: ${context.raw.flow} ${userModel.getCurrency()}`;
     };
 
     chart = new Chart(ctx, {
@@ -95,6 +103,7 @@ const SankeyChart = () => {
         animation: false,
         plugins: {
           tooltip: {
+            yAlign: 'bottom',
             displayColors: false,
             callbacks: {
               label: labelRenderer
@@ -107,9 +116,7 @@ const SankeyChart = () => {
           {
             data: [
               ...incomeChartSegments,
-              { from: 'Income', to: 'Savings', flow: totalSavings },
-              { from: 'Income', to: 'Expenses', flow: totalExpenses },
-              { from: 'Income', to: 'Debt', flow: totalDebt },
+              ...otherChartSegments,
             ],
             nodeWidth: -1,
             color: '#fff',
@@ -130,7 +137,7 @@ const SankeyChart = () => {
   }, [canvasRef, incomeChartSegments, totalSavings, totalExpenses, totalDebt])
 
   return (
-    <div className="p-6 bg-white rounded-xl" style={{ paddingRight: '0.55rem' }}>
+    <div className="p-6 bg-grey1 rounded-xl" style={{ paddingRight: '0.55rem' }}>
       <div className="flex items-center justify-center" style={{position: 'relative', width: '100%', aspectRatio: '21/8'}}>
         { isLoading ? <Loader width={50} height={50} className="absolute text-grey9" /> : null }
         <canvas ref={canvasRef} />

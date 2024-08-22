@@ -4,8 +4,9 @@ import findClosestBudgetDate from '@/helpers/find-closest-budget-date';
 import { BudgetModelContextProvider } from '@/view-models/budget-model';
 import { TransactionsModelContextProvider } from '@/view-models/transactions-model';
 import { CategoryBudgetModelContextProvider } from '@/view-models/category-budget-model';
+import { UserModelContextProvider } from '@/view-models/user-model';
 
-const ModelsContainer = async ({ children, token }: any) => {
+const ModelsContainer = async ({ children, token, user }: any) => {
   const budgets = await fetchBudgets(token);
   const initiallySelectedBudget = findClosestBudgetDate(new Date(), budgets)?.id;
   let transactions = [];
@@ -32,7 +33,9 @@ const ModelsContainer = async ({ children, token }: any) => {
         currentBudgetId={initiallySelectedBudget}
       >
         <CategoryBudgetModelContextProvider token={token}>
-          {children}
+          <UserModelContextProvider user={user}>
+            {children}
+          </UserModelContextProvider>
         </CategoryBudgetModelContextProvider>
       </TransactionsModelContextProvider>
     </BudgetModelContextProvider>

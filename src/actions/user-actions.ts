@@ -1,6 +1,7 @@
 'use server';
 
 import { serviceUrl } from '@/config';
+import { User } from '@/types/user';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -118,4 +119,82 @@ export const signup = async (prevState: any, formData: FormData) => {
   }
 
   redirect('/login');
+};
+
+export const updateUser = async (
+  token: string | undefined,
+  user: Partial<User>
+  ) => {
+  if (!token) return;
+
+  const reqOptions = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ user })
+  };
+
+  const req = await fetch(`${serviceUrl}/users`, reqOptions);
+
+  const jsonResponse = await req.json();
+
+  if (req.status !== 200 && jsonResponse.message) {
+    throw new Error(jsonResponse.message);
+  }
+
+  if (req.status !== 200 && !jsonResponse.message) {
+    throw new Error('An unexpected error occured. Please try again later.')
+  }
+
+  const cookieStore = cookies();
+  const currentUserStr = cookieStore.get('user')?.value;
+  if (!currentUserStr) return;
+  let currentUser = JSON.parse(currentUserStr);
+  currentUser = {
+    ...currentUser,
+    ...user,
+  };
+  cookieStore.set('user', JSON.stringify(currentUser));
+
+  return jsonResponse;
+};
+
+export const changePassword = async (token: string, prevState: any, formData: FormData) => {
+  const currentPassword = formData.get('currentPassword')?.toString();
+  const newPassword = formData.get('newPassword')?.toString();
+  const repeatNewPassword = formData.get('repeatNewPassword')?.toString();
+  
+  if (repeatNewPassword !== newPassword) {
+    return {
+      message: 'The new passwords do not match',
+    };
+  }
+
+  const reqOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      currentPassword,
+      newPassword
+    })
+  };
+
+  let req;
+
+  try {
+    req = await fetch(`${serviceUrl}/users/change-password`, reqOptions);
+  } catch (error) {
+    return {
+      message: 'An unexpected error occured. Try again later.'
+    };
+  }
+
+  const jsonResponse = await req.json();
+  
+  return jsonResponse;
 };

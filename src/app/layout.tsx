@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { clsx } from 'clsx';
 import './globals.sass';
+import { getTheme } from '@/actions/settings-actions';
+import { Theme } from '@/types/settings';
 
 const inter = Inter({
   weight: 'variable',
@@ -16,10 +19,24 @@ type RootLayoutProps = Readonly<{
   children: React.ReactNode
 }>;
 
-const RootLayout = (props: RootLayoutProps) => (
-  <html lang="en">
-    <body className={inter.className}>{props.children}</body>
-  </html>
-);
+const RootLayout = (props: RootLayoutProps) => {
+  const theme: Theme = getTheme();
+
+  return (
+    <html lang="en">
+      <body
+        className={clsx(
+          inter.className,
+          'bg-grey3',
+          theme === Theme.DARK && 'theme-dark',
+          theme === Theme.LIGHT && 'theme-light',
+          theme === Theme.AUTO && 'theme-auto'
+        )}
+      >
+        {props.children}
+      </body>
+    </html>
+  );
+};
 
 export default RootLayout;

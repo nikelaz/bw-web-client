@@ -16,6 +16,7 @@ import { useTransactionsModel } from '@/view-models/transactions-model';
 import { DeleteTransactionDialog } from './delete-transaction-dialog';
 import { updateTransaction } from '@/actions/transaction-actions';
 import { useBudgetModel } from '@/view-models/budget-model';
+import { useUserModel } from '@/view-models/user-model';
 
 type IncomeProps = Readonly<{
   token?: string
@@ -24,6 +25,7 @@ type IncomeProps = Readonly<{
 const TransactionsGrid = (props: IncomeProps) => {
   const transactionsModel = useTransactionsModel();
   const budgetModel = useBudgetModel();
+  const userModel = useUserModel();
   const [deleteDataRow, setDeleteDataRow] = useState();
   const deleteDialogModel = useDialog();
 
@@ -64,7 +66,7 @@ const TransactionsGrid = (props: IncomeProps) => {
       label: 'Amount',
       inputType: 'number',
       textAlign: 'right',
-      unitSuffix: '$',
+      unitSuffix: userModel.getCurrency(),
       editable: true,
       width: '14rem'
     }

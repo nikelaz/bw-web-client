@@ -3,9 +3,11 @@
 import { CategoryBudgetViewModel, useCategoryBudgetModel } from '@/view-models/category-budget-model';
 import { CategoryType } from '@/types/category';
 import { Scale } from '@nikelaz/bw-ui';
+import { useUserModel } from '@/view-models/user-model';
 
 const Scales = () => {
   const categoryBudgetModel: CategoryBudgetViewModel = useCategoryBudgetModel();
+  const userModel = useUserModel();
   const incomeCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.INCOME];
   const nonIncomeCategoryBudgets = [
     ...categoryBudgetModel.categoryBudgetsByType[CategoryType.EXPENSE],
@@ -22,11 +24,11 @@ const Scales = () => {
 
   return (
     <div className="flex flex-row gap-8">
-      <div className="flex-1 p-6 bg-white rounded-xl">
+      <div className="flex-1 p-6 bg-grey1 rounded-xl">
         <Scale
           topValue={totalIncome}
           topLabel="Income"
-          unit="$"
+          unit={userModel.getCurrency()}
           progress={leftToBudgetProgress}
           leftValue={totalPlanned}
           leftLabel="Planned"
@@ -34,11 +36,11 @@ const Scales = () => {
           rightLabel="Left to Budget"
         />
       </div>
-      <div className="flex-1 p-6 bg-white rounded-xl">
+      <div className="flex-1 p-6 bg-grey1 rounded-xl">
         <Scale
           topValue={totalIncome}
           topLabel="Planned"
-          unit="$"
+          unit={userModel.getCurrency()}
           progress={plannedVsActualProgress}
           leftValue={actual}
           leftLabel="Actual"

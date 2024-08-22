@@ -27,12 +27,12 @@ const NavLinks = () => {
           <Icon type={IconTypes.Gear} width={27} height={24} fill="currentColor" />
         </SidebarNavBtn>
       </Link>
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center mt-auto">
         <SidebarNavBtn
           label="User Profile"
           onClick={() => logout()}
         >
-          <Icon type={IconTypes.User} width={27} height={24} fill="currentColor" />
+          <Icon type={IconTypes.Logout} width={27} height={24} fill="currentColor" />
         </SidebarNavBtn>
       </div>
     </>

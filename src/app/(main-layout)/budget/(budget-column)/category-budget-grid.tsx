@@ -16,6 +16,7 @@ import { DeleteCategoryDialog } from './delete-category-dialog';
 import { useState } from 'react';
 import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 import type { CategoryBudget } from '@/types/category-budget';
+import { useUserModel } from '@/view-models/user-model';
 
 type CategoryBudgetGridProps = Readonly<{
   categoryBudgets: Array<CategoryBudget>,
@@ -35,6 +36,7 @@ type CategoryBudgetGridProps = Readonly<{
 
 const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
   const categoryBudgetModel = useCategoryBudgetModel();
+  const userModel = useUserModel();
   const createDialogModel = useDialog();
   const deleteDialogModel = useDialog();
   const [deleteDataRow, setDeleteDataRow] = useState<CategoryBudget | null>(null);
@@ -58,7 +60,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       label: props.amountLabel,
       inputType: 'number',
       textAlign: 'right',
-      unitSuffix: '$',
+      unitSuffix: userModel.getCurrency(),
       editable: true,
       width: props.amountWidth || '14rem',
     },
@@ -67,7 +69,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       label: props.currentAmountLabel,
       inputType: 'number',
       textAlign: 'right',
-      unitSuffix: '$',
+      unitSuffix: userModel.getCurrency(),
       width: props.currentAmountWidth || '14rem',
     }
   ];
@@ -78,7 +80,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       label: props.accAmountLabel,
       inputType: 'number',
       textAlign: 'right',
-      unitSuffix: '$',
+      unitSuffix: userModel.getCurrency(),
       editable: true,
       width: props.accAmountWidth || '14rem',
     });
@@ -133,14 +135,14 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
                 </Button>
               </Cell>
               {props.hasAccAmount ? (
-                <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
+                <Cell textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
                   {totals.accumulated}
                 </Cell>
               ) : null}
-              <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
+              <Cell textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
                 {totals.planned}
               </Cell>
-              <Cell textAlign="right" fontWeight="bold" unitSuffix="$">
+              <Cell textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
                 {totals.received}
               </Cell>
             </Row>

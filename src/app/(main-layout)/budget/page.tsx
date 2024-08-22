@@ -12,11 +12,11 @@ import Scales from './(reporting)/scales';
 import SankeyChart from './(reporting)/sankey-chart';
 
 const Budget = async () => {
-  const [token] = useAuth();
+  const [token, user] = useAuth();
 
   return (
     <main className="flex min-h-screen">
-      <ModelsContainer token={token}>
+      <ModelsContainer token={token} user={user}>
         {/* left column */}
         <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden" style={{ maxWidth: '50%' }}>
             <div className="flex justify-between z-1 h-10">

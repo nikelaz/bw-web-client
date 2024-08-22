@@ -20,7 +20,7 @@ const Login = () => {
   return (
     <div className="flex flex-col gap-10 min-h-screen justify-center items-center bg-grey1 py-14">
       <Logo />
-      <div className="w-min shadow-lg rounded-xl p-5 bg-white">
+      <div className="w-full shadow-lg rounded-xl p-5 bg-white" style={{ maxWidth: '26rem' }}>
         <form action={formAction} className="flex flex-col gap-5">
           <div>
             <Label htmlFor="email">Email</Label>
