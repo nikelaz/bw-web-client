@@ -11,6 +11,8 @@ import { Scale } from '@nikelaz/bw-ui';
 import Scales from './(reporting)/scales';
 import SankeyChart from './(reporting)/sankey-chart';
 
+export const dynamic = 'force-dynamic';
+
 const Budget = async () => {
   const [token, user] = useAuth();
 

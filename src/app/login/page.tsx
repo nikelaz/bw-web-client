@@ -10,6 +10,8 @@ import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import Logo from '../logo';
 
+export const dynamic = 'force-dynamic';
+
 const initialState = {
   message: '',
 }

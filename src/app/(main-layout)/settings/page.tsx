@@ -1,4 +1,3 @@
-import { Button, IconTypes } from '@nikelaz/bw-ui';
 import { ThemeSelect } from './theme-select';
 import { getTheme } from '@/actions/settings-actions';
 import { UserModelContextProvider } from '@/view-models/user-model';
@@ -6,6 +5,8 @@ import { useAuth } from '@/helpers/auth';
 import { CurrencySelect } from './currency-select';
 import { UserNameFields } from './user-name-fields';
 import { ChangePasswordDialog } from './change-password-dialog';
+
+export const dynamic = 'force-dynamic';
 
 const Settings = () => {
   const [token, user] = useAuth();
