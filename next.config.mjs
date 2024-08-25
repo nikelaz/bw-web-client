@@ -23,6 +23,11 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [ 'budgetwarden.com', "*.budgetwarden.com" ]
+    }
   }
 };
 

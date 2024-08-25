@@ -7,7 +7,6 @@ import Savings from './(budget-column)/savings';
 import { BudgetSwitch } from './(budget-column)/budget-switch';
 import TransactionsGrid from './(transactions)/transactions-grid';
 import NewTransactionButton from './(transactions)/new-transaction-button';
-import { Scale } from '@nikelaz/bw-ui';
 import Scales from './(reporting)/scales';
 import SankeyChart from './(reporting)/sankey-chart';
 
