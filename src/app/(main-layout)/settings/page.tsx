@@ -6,8 +6,6 @@ import { CurrencySelect } from './currency-select';
 import { UserNameFields } from './user-name-fields';
 import { ChangePasswordDialog } from './change-password-dialog';
 
-export const dynamic = 'force-dynamic';
-
 const Settings = () => {
   const [token, user] = useAuth();
   const theme = getTheme();
