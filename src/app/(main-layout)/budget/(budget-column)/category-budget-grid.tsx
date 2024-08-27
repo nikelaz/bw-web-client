@@ -62,7 +62,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       textAlign: 'right',
       unitSuffix: userModel.getCurrency(),
       editable: true,
-      width: props.amountWidth || '14rem',
+      width: props.amountWidth || '8rem',
     },
     {
       field: 'currentAmount',
@@ -70,7 +70,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       inputType: 'number',
       textAlign: 'right',
       unitSuffix: userModel.getCurrency(),
-      width: props.currentAmountWidth || '14rem',
+      width: props.currentAmountWidth || '8rem',
     }
   ];
 
@@ -82,7 +82,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       textAlign: 'right',
       unitSuffix: userModel.getCurrency(),
       editable: true,
-      width: props.accAmountWidth || '14rem',
+      width: props.accAmountWidth || '9.5rem',
     });
   }
 

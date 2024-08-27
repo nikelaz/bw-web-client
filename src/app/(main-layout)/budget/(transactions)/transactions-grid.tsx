@@ -53,7 +53,7 @@ const TransactionsGrid = (props: IncomeProps) => {
       textAlign: 'right',
       inputType: 'date',
       editable: true,
-      width: '14rem',
+      width: '9rem',
     },
     {
       field: 'categoryBudget.category.title',
@@ -68,7 +68,7 @@ const TransactionsGrid = (props: IncomeProps) => {
       textAlign: 'right',
       unitSuffix: userModel.getCurrency(),
       editable: true,
-      width: '14rem'
+      width: '6rem'
     }
   ];
 
