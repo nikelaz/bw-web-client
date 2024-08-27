@@ -37,7 +37,7 @@ class ChartColorsProvider {
   }
 }
 
-const SankeyChart = () => {
+const SankeyChart = (props: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const categoryBudgetModel: CategoryBudgetViewModel = useCategoryBudgetModel();
   const userModel = useUserModel();
@@ -99,7 +99,7 @@ const SankeyChart = () => {
       type: 'sankey',
       options: {
         responsive: true,
-        aspectRatio: 21 / 8,
+        aspectRatio: props.aspectRatio || 21 / 8,
         animation: false,
         plugins: {
           tooltip: {
@@ -138,7 +138,7 @@ const SankeyChart = () => {
 
   return (
     <div className="p-6 bg-grey1 rounded-xl" style={{ paddingRight: '0.55rem' }}>
-      <div className="flex items-center justify-center" style={{position: 'relative', width: '100%', aspectRatio: '21/8'}}>
+      <div className="flex items-center justify-center" style={{position: 'relative', width: '100%', aspectRatio: props.aspectRatioStr || '21/8'}}>
         { isLoading ? <Loader width={50} height={50} className="absolute text-grey9" /> : null }
         <canvas ref={canvasRef} />
       </div>

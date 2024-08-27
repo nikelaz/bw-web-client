@@ -13,10 +13,12 @@ type LayoutProps = Readonly<{
 const RootLayout = (props: LayoutProps) => {  
   return (
     <MainLayout>
-      <SidebarNav>
-        <SidebarNavLogo />
-        <NavLinks />
-      </SidebarNav>
+      <div className="relative z-1">
+        <SidebarNav>
+          <SidebarNavLogo />
+          <NavLinks />
+        </SidebarNav>
+      </div>
       <MainLayoutContainer>
         {props.children}
       </MainLayoutContainer>

@@ -12,7 +12,7 @@ const Settings = () => {
 
   return (
     <main className="flex min-h-screen">
-      <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden" style={{ maxWidth: '50%' }}>
+      <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
         <h1 className="text-3xl font-bold h-10 flex items-center mb-1">Settings</h1>
         <div className="flex flex-col gap-8">
           <div>

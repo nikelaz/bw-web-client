@@ -1,4 +1,3 @@
-// @TODO: Rework nav links to have a single focusable and clickable item
 'use client';
 
 import Link from 'next/link';
@@ -11,29 +10,49 @@ const NavLinks = () => {
 
   return (
     <>
-      <Link href="/budget" className="w-full flex justify-center">
+      <SidebarNavBtn
+        component={Link}
+        href="/budget"
+        className="w-full flex justify-center"
+        label="Budget"
+        isActive={pathname === '/budget'}
+        icon={IconTypes.Wallet}
+      />
+      <div className="w-full xl:hidden">
         <SidebarNavBtn
-          label="Budget"
-          isActive={pathname === '/budget'}
-        >
-          <Icon type={IconTypes.Wallet} width={24} height={24} fill="currentColor" />
-        </SidebarNavBtn>
-      </Link>
-      <Link href="/settings" className="w-full flex justify-center">
+          component={Link}
+          href="/reporting"
+          className="w-full flex justify-center"
+          label="Reporting"
+          isActive={pathname === '/reporting'}
+          icon={IconTypes.Chart}
+        />
+      </div>
+      <div className="w-full xl:hidden">
         <SidebarNavBtn
-          label="Settings"
-          isActive={pathname === '/settings'}
-        >
-          <Icon type={IconTypes.Gear} width={27} height={24} fill="currentColor" />
-        </SidebarNavBtn>
-      </Link>
-      <div className="w-full flex justify-center mt-auto">
+          component={Link}
+          href="/transactions"
+          className="w-full flex justify-center"
+          label="Transactions"
+          isActive={pathname === '/transactions'}
+          icon={IconTypes.CreditCard}
+        />
+      </div>
+      <SidebarNavBtn
+        component={Link}
+        href="/settings"
+        className="w-full flex justify-center"
+        label="Settings"
+        isActive={pathname === '/settings'}
+        icon={IconTypes.Gear}
+      />
+      <div className="w-full mt-auto hidden md:block">
         <SidebarNavBtn
-          label="User Profile"
+          className="w-full flex justify-center"
+          label="Logout"
           onClick={() => logout()}
-        >
-          <Icon type={IconTypes.Logout} width={27} height={24} fill="currentColor" />
-        </SidebarNavBtn>
+          icon={IconTypes.Logout}
+        />
       </div>
     </>
   );

@@ -13,7 +13,7 @@ const Reporting = async () => {
         <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden w-full" style={{maxWidth: '55rem'}}>
           <h1 className="text-2xl font-bold h-10 flex items-center">Reporting</h1>
           <Scales />
-          <SankeyChart />
+          <SankeyChart aspectRatio={3/2} aspectRatioStr="3/2" />
         </div>
       </ModelsContainer>
     </main>
