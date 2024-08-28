@@ -18,7 +18,7 @@ const Budget = async () => {
       <ModelsContainer token={token} user={user}>
         {/* left column */}
         <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
-            <div className="flex justify-between z-1 h-10">
+            <div className="flex justify-between z-1 h-10 gap-3">
               <BudgetSwitch />
               <NewTransactionButton token={token} />
             </div>
@@ -29,7 +29,7 @@ const Budget = async () => {
         </div>
 
         {/* right column */}
-        <div className="hidden xl:flex flex-col gap-8 flex-1 bg-grey3 min-h-screen p-6 overflow-hidden w-1/2">
+        <div className="hidden xl:flex flex-col gap-8 flex-1 bg-grey3 min-h-screen p-6 overflow-hidden w-1/2" style={{maxWidth: '55rem'}}>
           <h1 className="text-2xl font-bold h-10 flex items-center">Summary</h1>
           <Scales />
           <SankeyChart />

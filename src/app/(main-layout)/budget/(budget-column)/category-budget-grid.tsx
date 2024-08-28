@@ -125,7 +125,8 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
 
           return (
             <Row>
-              <Cell>
+              <Cell fontSize='l' fontWeight='bold' mobile={true}>Total {props.label}</Cell>
+              <Cell desktop={true}>
                 <Button
                   style="link"
                   icon={IconTypes.Plus}
@@ -135,14 +136,14 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
                 </Button>
               </Cell>
               {props.hasAccAmount ? (
-                <Cell textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
+                <Cell header={props.accAmountLabel} textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
                   {totals.accumulated}
                 </Cell>
               ) : null}
-              <Cell textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
+              <Cell header="Planned" textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
                 {totals.planned}
               </Cell>
-              <Cell textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
+              <Cell header="Received" textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
                 {totals.received}
               </Cell>
             </Row>

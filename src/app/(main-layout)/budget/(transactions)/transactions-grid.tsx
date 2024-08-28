@@ -39,6 +39,7 @@ const TransactionsGrid = (props: IncomeProps) => {
       label: 'Transactions',
       editable: true,
       fontWeight: 'bold',
+      desktopOnly: true,
       headerCellRenderer() {
         return (
           <HeaderCell fontSize='l' textColor='dark' key={this.field}>
@@ -102,7 +103,7 @@ const TransactionsGrid = (props: IncomeProps) => {
         onDelete={rowDeleteHandler}
       >
         <tfoot>
-          <Row>
+          <Row mobileGhost={true}>
             <Cell>
               <Button style='link' icon={IconTypes.Plus} onClick={() => transactionsModel.setIsCreateDialogOpen(true)}>New Transaction</Button>
             </Cell>
