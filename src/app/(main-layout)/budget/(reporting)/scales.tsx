@@ -23,7 +23,7 @@ const Scales = () => {
   const plannedVsActualProgress = (actual / totalIncome) * 100;
 
   return (
-    <div className="flex flex-col gap-2 s:gap-8 sm:flex-row">
+    <div className="flex flex-col gap-2 sm:gap-8 sm:flex-row">
       <div className="flex-1 p-6 bg-grey1 rounded-xl">
         <Scale
           topValue={totalIncome}
