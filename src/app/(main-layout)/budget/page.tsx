@@ -17,8 +17,8 @@ const Budget = async () => {
     <main className="flex min-h-screen">
       <ModelsContainer token={token} user={user}>
         {/* left column */}
-        <div className="flex flex-col gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
-            <div className="flex justify-between z-1 h-10 gap-3">
+        <div className="flex flex-col gap-2 s:gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
+            <div className="flex flex-wrap justify-between z-1 gap-4 s:h-10">
               <BudgetSwitch />
               <NewTransactionButton token={token} />
             </div>

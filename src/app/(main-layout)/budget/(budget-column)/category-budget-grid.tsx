@@ -47,6 +47,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       label: props.label,
       editable: true,
       fontWeight: 'bold',
+      desktopOnly: true,
       headerCellRenderer() {
         return (
           <HeaderCell fontSize='l' textColor='dark' key={this.field}>

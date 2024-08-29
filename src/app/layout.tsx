@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import './globals.sass';
 import { getTheme } from '@/actions/settings-actions';
 import { Theme } from '@/types/settings';
+import Head from 'next/head';
 
 const inter = Inter({
   weight: 'variable',

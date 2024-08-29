@@ -17,6 +17,7 @@ import { DeleteTransactionDialog } from './delete-transaction-dialog';
 import { updateTransaction } from '@/actions/transaction-actions';
 import { useBudgetModel } from '@/view-models/budget-model';
 import { useUserModel } from '@/view-models/user-model';
+import NewTransactionButton from './new-transaction-button';
 
 type IncomeProps = Readonly<{
   token?: string
@@ -42,9 +43,14 @@ const TransactionsGrid = (props: IncomeProps) => {
       desktopOnly: true,
       headerCellRenderer() {
         return (
-          <HeaderCell fontSize='l' textColor='dark' key={this.field}>
-            {this.label}
-          </HeaderCell>
+          <>
+            <HeaderCell desktop={true} fontSize='l' textColor='dark' key={this.field}>
+              {this.label}
+            </HeaderCell>
+            <HeaderCell mobile={true} key={this.field}>
+              <NewTransactionButton style='link' token={props.token} />
+            </HeaderCell>
+          </>
         );
       }
     },
@@ -104,7 +110,7 @@ const TransactionsGrid = (props: IncomeProps) => {
       >
         <tfoot>
           <Row mobileGhost={true}>
-            <Cell>
+            <Cell desktop={true}>
               <Button style='link' icon={IconTypes.Plus} onClick={() => transactionsModel.setIsCreateDialogOpen(true)}>New Transaction</Button>
             </Cell>
             <Cell textAlign='right' colSpan={3}>
