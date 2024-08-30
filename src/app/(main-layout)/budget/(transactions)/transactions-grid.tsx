@@ -31,8 +31,6 @@ const TransactionsGrid = (props: IncomeProps) => {
   const deleteDialogModel = useDialog();
 
   const transactions = transactionsModel.transactions;
-  
-  // if (!transactions || transactions.length === 0) return 'Loading...';
 
   const colDefs: Array<ColDef> = [
     {
