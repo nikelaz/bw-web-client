@@ -42,11 +42,14 @@ const SankeyChart = (props: any) => {
   const categoryBudgetModel: CategoryBudgetViewModel = useCategoryBudgetModel();
   const userModel = useUserModel();
   const incomeCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.INCOME];
-  const incomeChartSegments = incomeCategoryBudgets.map(categoryBudget => ({
-    from: categoryBudget.category?.title,
-    to: 'Income',
-    flow: categoryBudget.amount,
-  }));
+  const incomeChartSegments = incomeCategoryBudgets.flatMap(categoryBudget => {
+    if (!categoryBudget.amount) return [];
+    return [{
+      from: categoryBudget.category?.title,
+      to: 'Income',
+      flow: categoryBudget.amount,
+    }];
+  });
 
   const savingsCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.SAVINGS];
   const totalSavings = savingsCategoryBudgets.reduce((accumulator, categoryBudget) => accumulator += categoryBudget.amount, 0);
@@ -57,11 +60,11 @@ const SankeyChart = (props: any) => {
   const debtCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.DEBT];
   const totalDebt = debtCategoryBudgets.reduce((accumulator, categoryBudget) => accumulator += categoryBudget.amount, 0);
 
-  const otherChartSegments = [
-    { from: 'Income', to: 'Savings', flow: totalSavings },
-    { from: 'Income', to: 'Expenses', flow: totalExpenses },
-    { from: 'Income', to: 'Debt', flow: totalDebt },
-  ];
+  const otherChartSegments: Array<{from: string, to: string, flow: number}> = [];
+
+  if (totalSavings) otherChartSegments.push({ from: 'Income', to: 'Savings', flow: totalSavings });
+  if (totalExpenses) otherChartSegments.push({ from: 'Income', to: 'Expenses', flow: totalExpenses });
+  if (totalDebt) otherChartSegments.push({ from: 'Income', to: 'Debt', flow: totalDebt }),
 
   incomeChartSegments.sort((x, y) => y.flow - x.flow);
   otherChartSegments.sort((x, y) => y.flow - x.flow);
