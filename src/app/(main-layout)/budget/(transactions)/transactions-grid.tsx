@@ -17,7 +17,6 @@ import { DeleteTransactionDialog } from './delete-transaction-dialog';
 import { updateTransaction } from '@/actions/transaction-actions';
 import { useBudgetModel } from '@/view-models/budget-model';
 import { useUserModel } from '@/view-models/user-model';
-import NewTransactionButton from './new-transaction-button';
 
 type IncomeProps = Readonly<{
   token?: string
@@ -44,9 +43,6 @@ const TransactionsGrid = (props: IncomeProps) => {
           <>
             <HeaderCell desktop={true} fontSize='l' textColor='dark' key={this.field}>
               {this.label}
-            </HeaderCell>
-            <HeaderCell mobile={true} key={this.field}>
-              <NewTransactionButton style='link' token={props.token} />
             </HeaderCell>
           </>
         );
@@ -105,6 +101,7 @@ const TransactionsGrid = (props: IncomeProps) => {
         deleteRows={true}
         onChange={rowChangeHandler}
         onDelete={rowDeleteHandler}
+        className="w-full"
       >
         <tfoot>
           <Row mobileGhost={true}>

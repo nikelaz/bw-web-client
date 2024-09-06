@@ -16,7 +16,7 @@ import {
 } from '@nikelaz/bw-ui';
 import { FormEvent } from 'react';
 import { useBudgetModel } from '@/view-models/budget-model';
-import { monthLabels, getFormattedLabel } from '@/helpers/date-formatting-utils';
+import { monthLabels, getFormattedLabel } from '@/helpers/formatting-utils';
 import type { Budget } from '@/types/budget';
 
 const generateNewBudgetOptions = (budgetModel: any) => {
@@ -68,7 +68,7 @@ export const BudgetSwitch = () => {
       isActive: budget.id === budgetModel.currentBudget.id,
     };
   });
-  
+
   const optionsWithCreateButton = [
     ...options,
     {

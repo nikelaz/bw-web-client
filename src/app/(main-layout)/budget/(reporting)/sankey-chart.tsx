@@ -7,6 +7,7 @@ import { CategoryBudgetViewModel, useCategoryBudgetModel } from '@/view-models/c
 import { CategoryType } from '@/types/category';
 import { Loader } from '@nikelaz/bw-ui';
 import { useUserModel } from '@/view-models/user-model';
+import { getFormattedDecimal } from '@/helpers/formatting-utils';
 
 Chart.register(...registerables);
 Chart.register(SankeyController, Flow);
@@ -74,7 +75,7 @@ const SankeyChart = (props: any) => {
 
   useEffect(() => {
     if (canvasRef.current ===  null || chart !== null) return;
-    
+
     const ctx = canvasRef.current.getContext('2d');
 
     if (ctx === null) return;
@@ -95,7 +96,7 @@ const SankeyChart = (props: any) => {
         categoryLabel = context.raw.to;
       }
 
-      return `${categoryLabel}: ${context.raw.flow} ${userModel.getCurrency()}`;
+      return `${categoryLabel}: ${getFormattedDecimal(context.raw.flow)} ${userModel.getCurrency()}`;
     };
 
     chart = new Chart(ctx, {

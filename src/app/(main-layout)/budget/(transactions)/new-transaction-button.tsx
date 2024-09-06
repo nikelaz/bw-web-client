@@ -54,7 +54,7 @@ const NewTransactionButton = (props: any) => {
 
   return (
     <>
-      <Button style={props.style} icon={IconTypes.Plus} onClick={() => transactionsModel.setIsCreateDialogOpen(true)}>New Transaction</Button>
+      <Button className={props.className} style={props.style} icon={IconTypes.Plus} onClick={() => transactionsModel.setIsCreateDialogOpen(true)}>New Transaction</Button>
       <Dialog
         isOpen={transactionsModel.isCreateDialogOpen}
         hasCloseBtn={true}
@@ -100,4 +100,3 @@ const NewTransactionButton = (props: any) => {
 };
 
 export default NewTransactionButton;
-
