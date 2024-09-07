@@ -2,7 +2,7 @@
 
 import { serviceUrl } from '@/config';
 
-export const fetchTransactions = async (token: string | undefined, budgetId: number | undefined, limit: number, offset: number) => {
+export const fetchTransactions = async (token: string | undefined, budgetId: number | undefined, limit: number, offset: number, filter: string = '') => {
   if (!token || budgetId === undefined) return;
 
   const reqOptions = {
@@ -12,7 +12,7 @@ export const fetchTransactions = async (token: string | undefined, budgetId: num
     },
   };
 
-  const req = await fetch(`${serviceUrl}/transactions/${budgetId}?limit=${limit}&offset=${offset}`, reqOptions);
+  const req = await fetch(`${serviceUrl}/transactions/${budgetId}?limit=${limit}&offset=${offset}&filter=${filter}`, reqOptions);
 
   const jsonResponse = await req.json();
 

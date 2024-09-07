@@ -9,6 +9,7 @@ import NewTransactionButton from './(transactions)/new-transaction-button';
 import Scales from './(reporting)/scales';
 import SankeyChart from './(reporting)/sankey-chart';
 import TransactionsGrid from './(transactions)/transactions-grid';
+import TransactionsFilter from './(transactions)/transactions-filter';
 
 const Budget = async () => {
   const [token, user] = useAuth();
@@ -34,6 +35,7 @@ const Budget = async () => {
           <Scales />
           <SankeyChart />
           <hr className="text-grey4" />
+          <TransactionsFilter />
           <TransactionsGrid token={token} />
         </div>
       </ModelsContainer>

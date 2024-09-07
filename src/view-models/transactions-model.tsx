@@ -22,6 +22,8 @@ export class TransactionsViewModel {
   setTotalPages: Function;
   budgetChanged: boolean;
   setBudgetChanged: Function;
+  filter: string;
+  setFilter: Function;
 
 
   constructor(token: string, transactions: Array<Transaction>, transactionsCount: string | number, currentBudgetId?: number) {
@@ -30,6 +32,7 @@ export class TransactionsViewModel {
     [this.transactions, this.setTransactions] = useState(transactions);
     [this.isCreateDialogOpen, this.setIsCreateDialogOpen, this.onCreateDialogKeyDown] = useDialog();
     [this.page, this.setPage] = useState(0);
+    [this.filter, this.setFilter] = useState('');
     [this.totalPages, this.setTotalPages] = useState(
       calculateTotalPages(
         parseFloat(transactionsCount.toString()),
@@ -46,11 +49,11 @@ export class TransactionsViewModel {
 
     useEffect(() => {
       this.refresh();
-    }, [this.page]);
+    }, [this.page, this.filter]);
   }
 
   async refresh() {
-    const response = await fetchTransactions(this.token, this.budgetModel.currentBudgetId, this.perPage, this.page * this.perPage);
+    const response = await fetchTransactions(this.token, this.budgetModel.currentBudgetId, this.perPage, this.page * this.perPage, this.filter);
     this.setTransactions(response.transactions);
     this.setTotalPages(calculateTotalPages(parseFloat(response.count),  this.perPage));
   };
