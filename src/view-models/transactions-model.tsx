@@ -50,6 +50,10 @@ export class TransactionsViewModel {
     useEffect(() => {
       this.refresh();
     }, [this.page, this.filter]);
+
+    useEffect(() => {
+      this.setPage(0);
+    }, [this.filter, this.budgetModel.currentBudgetId]);
   }
 
   async refresh() {
