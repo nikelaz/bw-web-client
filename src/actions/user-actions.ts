@@ -35,7 +35,7 @@ export const login = async (prevState: any, formData: FormData) => {
   const jsonResponse = await req.json();
 
   const cookieStore = cookies();
-  
+
   const thirtyDays = 24 * 60 * 60 * 1000 * 30
   const expirationTimestamp = Date.now() + thirtyDays;
 
@@ -95,7 +95,7 @@ export const signup = async (prevState: any, formData: FormData) => {
   };
 
   let req;
-  
+
   try {
     req = await fetch(`${serviceUrl}/users`, reqOptions);
   } catch (error: any) {
@@ -113,6 +113,26 @@ export const signup = async (prevState: any, formData: FormData) => {
   const response = await req.json();
 
   if (req.status !== 200) {
+    if (
+      response.statusCode
+      && response.statusCode === 500
+      && response.message.includes('unique constraint')
+    ) {
+      return {
+        message: 'A user already exists with this email'
+      };
+    }
+
+    if (
+      response[0]
+      && response[0].constraints
+      && response[0].constraints.matches
+    ) {
+      return {
+        message: response[0].constraints.matches
+      };
+    }
+
     return {
       message: response.message
     };
@@ -165,7 +185,7 @@ export const changePassword = async (token: string, prevState: any, formData: Fo
   const currentPassword = formData.get('currentPassword')?.toString();
   const newPassword = formData.get('newPassword')?.toString();
   const repeatNewPassword = formData.get('repeatNewPassword')?.toString();
-  
+
   if (repeatNewPassword !== newPassword) {
     return {
       message: 'The new passwords do not match',
@@ -195,6 +215,6 @@ export const changePassword = async (token: string, prevState: any, formData: Fo
   }
 
   const jsonResponse = await req.json();
-  
+
   return jsonResponse;
 };
