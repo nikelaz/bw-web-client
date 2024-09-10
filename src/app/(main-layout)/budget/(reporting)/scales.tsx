@@ -24,7 +24,7 @@ const Scales = () => {
 
   return (
     <div className="flex flex-col gap-2 sm:gap-8 sm:flex-row">
-      <div className="flex-1 p-6 bg-grey1 rounded-xl">
+      <div className="flex-1 p-6 bg-grey1 dark:bg-grey6 rounded-xl">
         <Scale
           topValue={totalIncome}
           topLabel="Income"
@@ -36,7 +36,7 @@ const Scales = () => {
           rightLabel="Left to Budget"
         />
       </div>
-      <div className="flex-1 p-6 bg-grey1 rounded-xl">
+      <div className="flex-1 p-6 bg-grey1 dark:bg-grey6 rounded-xl">
         <Scale
           topValue={totalIncome}
           topLabel="Planned"

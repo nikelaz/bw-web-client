@@ -3,6 +3,17 @@ import { Inter } from 'next/font/google';
 import { clsx } from 'clsx';
 import { getTheme } from '@/actions/settings-actions';
 import { Theme } from '@/types/settings';
+
+// Budget Warden UI Themes
+import '@nikelaz/bw-ui/dist/themes/light';
+import '@nikelaz/bw-ui/dist/themes/light-high-contrast';
+import '@nikelaz/bw-ui/dist/themes/dark';
+
+// Tailwind Themes
+import '../themes/light.sass';
+import '../themes/light-high-contrast.sass';
+import '../themes/dark.sass';
+
 import './globals.sass';
 
 const inter = Inter({
@@ -29,18 +40,21 @@ type RootLayoutProps = Readonly<{
   children: React.ReactNode
 }>;
 
-const RootLayout = (props: RootLayoutProps) => {
-  const theme: Theme = getTheme();
+const RootLayout = async (props: RootLayoutProps) => {
+  const theme: Theme = await getTheme();
 
   return (
     <html lang="en">
       <body
         className={clsx(
           inter.className,
-          'bg-grey3',
-          theme === Theme.DARK && 'theme-dark',
-          theme === Theme.LIGHT && 'theme-light',
-          theme === Theme.AUTO && 'theme-auto'
+          'bg-grey5',
+          theme === Theme.LIGHT && 'theme:light',
+          theme === Theme.LIGHT_HIGH_CONTRAST && 'theme:light-high-contrast',
+          theme === Theme.DARK && 'theme:dark',
+          theme === Theme.DARK_HIGH_CONTRAST && 'theme:dark-high-contrast',
+          theme === Theme.DARK && 'dark',
+          theme === Theme.DARK_HIGH_CONTRAST && 'dark',
         )}
       >
         {props.children}

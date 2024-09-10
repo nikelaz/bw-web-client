@@ -6,13 +6,14 @@ import { CurrencySelect } from './currency-select';
 import { UserNameFields } from './user-name-fields';
 import { ChangePasswordDialog } from './change-password-dialog';
 
-const Settings = () => {
+const Settings = async () => {
   const [token, user] = useAuth();
-  const theme = getTheme();
+  const theme = await getTheme();
+  console.log("settings/theme", theme);
 
   return (
     <main className="flex min-h-screen">
-      <div className="flex flex-col gap-4 sm:gap-8 flex-1 bg-grey2 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
+      <div className="flex flex-col gap-4 sm:gap-8 flex-1 bg-grey4 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
         <h1 className="text-3xl font-bold h-10 flex items-center mb-1">Settings</h1>
         <div className="flex flex-col gap-4 sm:gap-8">
           <div>
