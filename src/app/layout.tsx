@@ -8,11 +8,13 @@ import { Theme } from '@/types/settings';
 import '@nikelaz/bw-ui/dist/themes/light';
 import '@nikelaz/bw-ui/dist/themes/light-high-contrast';
 import '@nikelaz/bw-ui/dist/themes/dark';
+import '@nikelaz/bw-ui/dist/themes/dark-high-contrast';
 
 // Tailwind Themes
 import '../themes/light.sass';
 import '../themes/light-high-contrast.sass';
 import '../themes/dark.sass';
+import '../themes/dark-high-contrast.sass';
 
 import './globals.sass';
 

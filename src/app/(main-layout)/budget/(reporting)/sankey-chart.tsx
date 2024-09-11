@@ -8,6 +8,7 @@ import { CategoryType } from '@/types/category';
 import { Loader } from '@nikelaz/bw-ui';
 import { useUserModel } from '@/view-models/user-model';
 import { getFormattedDecimal } from '@/helpers/formatting-utils';
+import { Theme } from '@/types/settings';
 
 Chart.register(...registerables);
 Chart.register(SankeyController, Flow);
@@ -17,24 +18,68 @@ Chart.defaults.font.size = 16;
 Chart.defaults.font.weight = 600;
 
 class ChartColorsProvider {
-  static incomeColors = [
-    '#1379D3',
-    '#1160BB',
-    '#0E489E',
-  ];
+  theme: Theme = Theme.LIGHT;
+  incomeColors = {
+    [Theme.LIGHT]: [
+      '#1379D3',
+      '#1160BB',
+      '#0E489E',
+    ],
+    [Theme.LIGHT_HIGH_CONTRAST]: [
+      '#0F5EA3',
+      '#116CBB',
+      '#1479D2',
+    ],
+    [Theme.DARK]: [
+      '#1379D3',
+      '#1160BB',
+      '#0E489E',
+    ],
+    [Theme.DARK_HIGH_CONTRAST]: [
+      '#0F5EA3',
+      '#116CBB',
+      '#1479D2',
+    ],
+  };
 
-  static outflowColors = [
-    '#FFAF24',
-    '#FF9500',
-    '#FF7F0F',
-  ];
+  outflowColors = {
+    [Theme.LIGHT]: [
+      '#FFAF24',
+      '#FF9500',
+      '#FF7F0F',
+    ],
+    [Theme.LIGHT_HIGH_CONTRAST]: [
+      '#CC4700',
+      '#E65000',
+      '#FF5900',
+    ],
+    [Theme.DARK]: [
+      '#FFAF24',
+      '#FF9500',
+      '#FF7F0F',
+    ],
+    [Theme.DARK_HIGH_CONTRAST]: [
+      '#CC4700',
+      '#E65000',
+      '#FF5900',
+    ],
+  };
 
-  static getIncomeColor(index: number) {
-    return this.incomeColors[index % this.incomeColors.length];
+  currentIncomeColors = this.incomeColors[Theme.LIGHT];
+  currentOutflowColors = this.outflowColors[Theme.LIGHT];
+
+  setTheme(theme: Theme) {
+    this.theme = theme;
+    this.currentIncomeColors = this.incomeColors[theme];
+    this.currentOutflowColors = this.outflowColors[theme];
   }
 
-  static getOutflowColor(index: number) {
-    return this.outflowColors[index % this.outflowColors.length];
+  getIncomeColor(index: number) {
+    return this.currentIncomeColors[index % this.currentIncomeColors.length];
+  }
+
+  getOutflowColor(index: number) {
+    return this.currentOutflowColors[index % this.currentOutflowColors.length];
   }
 }
 
@@ -51,6 +96,9 @@ const SankeyChart = (props: any) => {
       flow: categoryBudget.amount,
     }];
   });
+
+  const colorsProvider = new ChartColorsProvider();
+  colorsProvider.setTheme(props.theme);
 
   const savingsCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.SAVINGS];
   const totalSavings = savingsCategoryBudgets.reduce((accumulator, categoryBudget) => accumulator += categoryBudget.amount, 0);
@@ -83,9 +131,9 @@ const SankeyChart = (props: any) => {
     const colorCallback = (c: ScriptableContext<'sankey'>) => {
       const index = c.dataIndex;
       if (index < incomeChartSegments.length) {
-        return ChartColorsProvider.getIncomeColor(index);
+        return colorsProvider.getIncomeColor(index);
       } else {
-        return ChartColorsProvider.getOutflowColor(index);
+        return colorsProvider.getOutflowColor(index);
       }
     };
 

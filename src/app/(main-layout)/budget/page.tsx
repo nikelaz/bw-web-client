@@ -10,9 +10,12 @@ import Scales from './(reporting)/scales';
 import SankeyChart from './(reporting)/sankey-chart';
 import TransactionsGrid from './(transactions)/transactions-grid';
 import TransactionsFilter from './(transactions)/transactions-filter';
+import { getTheme } from '@/actions/settings-actions';
+import { Theme } from '@/types/settings';
 
 const Budget = async () => {
   const [token, user] = useAuth();
+  const theme: Theme = await getTheme();
 
   return (
     <main className="flex min-h-screen">
@@ -33,7 +36,7 @@ const Budget = async () => {
         <div className="hidden xl:flex flex-col gap-8 flex-1 bg-grey5 min-h-screen p-6 overflow-hidden w-1/2" style={{maxWidth: '55rem'}}>
           <h1 className="text-2xl font-bold h-10 flex items-center">Summary</h1>
           <Scales />
-          <SankeyChart />
+          <SankeyChart theme={theme} />
           <hr className="text-grey6" />
           <TransactionsFilter />
           <TransactionsGrid token={token} />
