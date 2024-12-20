@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 import type { CategoryBudget } from '@/types/category-budget';
 import { useUserModel } from '@/view-models/user-model';
+import { getFormattedDecimal } from '@/helpers/formatting-utils';
 
 type CategoryBudgetGridProps = Readonly<{
   categoryBudgets: Array<CategoryBudget>,
@@ -138,14 +139,14 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
               </Cell>
               {props.hasAccAmount ? (
                 <Cell header={props.accAmountLabel} textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
-                  {totals.accumulated}
+                  {getFormattedDecimal(totals.accumulated)}
                 </Cell>
               ) : null}
               <Cell header="Planned" textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
-                {totals.planned}
+                {getFormattedDecimal(totals.planned)}
               </Cell>
               <Cell header="Received" textAlign="right" fontWeight="bold" unitSuffix={userModel.getCurrency()}>
-                {totals.received}
+                {getFormattedDecimal(totals.received)}
               </Cell>
             </Row>
           )

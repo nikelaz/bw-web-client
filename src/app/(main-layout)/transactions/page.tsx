@@ -13,9 +13,9 @@ const Transactions = async () => {
         {/* left column */}
         <div className="flex flex-col gap-2 sm:gap-8 flex-1 bg-grey4 min-h-screen p-6 overflow-hidden w-full" style={{maxWidth: '55rem'}}>
           <h1 className="text-2xl font-bold h-10 flex items-center mb-3">Transactions</h1>
-          <NewTransactionButton style='link' token={token} className="sm:!hidden" />
-          <div className="my-2 sm:mt-0 full">
+          <div className="mb-5 sm:mb-0 full flex flex-wrap justify-between gap-5">
             <TransactionsFilter />
+            <NewTransactionButton style='link' token={token} />
           </div>
           <TransactionsGrid token={token} />
         </div>
