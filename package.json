@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^15.1.2",
     "@nikelaz/bw-sankey-charts": "0.0.4",
     "@nikelaz/bw-ui": "0.7.41",
     "chart.js": "4.4.4",

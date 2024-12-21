@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { clsx } from 'clsx';
 import { getTheme } from '@/actions/settings-actions';
+import { GoogleTagManager } from '@next/third-parties/google';
 import { Theme } from '@/types/settings';
 
 // Budget Warden UI Themes
@@ -47,6 +48,7 @@ const RootLayout = async (props: RootLayoutProps) => {
 
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="GTM-MDSTJTQT" />
       <body
         className={clsx(
           inter.className,
