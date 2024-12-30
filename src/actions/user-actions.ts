@@ -90,6 +90,7 @@ export const signup = async (prevState: any, formData: FormData) => {
         password: formData.get('password'),
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
+        country: formData.get('country'),
       },
     }),
   };

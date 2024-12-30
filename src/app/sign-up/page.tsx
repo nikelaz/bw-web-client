@@ -5,10 +5,12 @@ import {
   Label,
   Input,
   Button,
+  Select,
 } from '@nikelaz/bw-ui';
 import { signup } from '@/actions/user-actions';
 import Link from 'next/link';
 import Logo from '../logo';
+import { countries } from '@/data/countries';
 
 const initialState = {
   message: '',
@@ -41,6 +43,12 @@ const SignUp = () => {
           <div>
             <Label htmlFor="repeatPassword">Repeat Password</Label>
             <Input required={true} name="repeatPassword" type="password" id="repeatPassword" />
+          </div>
+          <div>
+            <Label htmlFor="country">Country</Label>
+            <Select required={true} name="country" id="country">
+              { countries.map(country => <option value={country}>{country}</option>) }
+            </Select>
           </div>
           <p aria-live="polite" className="text-red1">
             {state?.message}
