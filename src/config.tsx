@@ -1,1 +1,1 @@
-export const serviceUrl = 'http://backend-service:3001/api/v1'
+export const serviceUrl = `http://backend-service:${process.env.BE_SERVICE_PORT}/api/v1`;
