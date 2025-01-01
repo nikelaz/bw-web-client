@@ -52,7 +52,6 @@ export const deleteTransaction = async (token: string | undefined, id: number) =
   const reqOptions = {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
   };

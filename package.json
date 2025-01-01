@@ -11,7 +11,7 @@
   "dependencies": {
     "@next/third-parties": "^15.1.2",
     "@nikelaz/bw-sankey-charts": "0.0.4",
-    "@nikelaz/bw-ui": "0.7.41",
+    "@nikelaz/bw-ui": "0.8.1",
     "chart.js": "4.4.4",
     "next": "14.2.6",
     "react": "18.3.1",

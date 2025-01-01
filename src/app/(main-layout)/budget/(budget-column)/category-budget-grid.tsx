@@ -18,6 +18,7 @@ import { useCategoryBudgetModel } from '@/view-models/category-budget-model';
 import type { CategoryBudget } from '@/types/category-budget';
 import { useUserModel } from '@/view-models/user-model';
 import { getFormattedDecimal } from '@/helpers/formatting-utils';
+import { useTransactionsModel } from '@/view-models/transactions-model';
 
 type CategoryBudgetGridProps = Readonly<{
   categoryBudgets: Array<CategoryBudget>,
@@ -40,6 +41,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
   const userModel = useUserModel();
   const createDialogModel = useDialog();
   const deleteDialogModel = useDialog();
+  const transactionsModel = useTransactionsModel();
   const [deleteDataRow, setDeleteDataRow] = useState<CategoryBudget | null>(null);
 
   const colDefs: Array<ColDef> = [
@@ -73,6 +75,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       textAlign: 'right',
       unitSuffix: userModel.getCurrency(),
       width: props.currentAmountWidth || '8rem',
+      onClick: () => { transactionsModel.setIsCreateDialogOpen(true) },
     }
   ];
 
