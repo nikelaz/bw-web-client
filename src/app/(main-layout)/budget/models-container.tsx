@@ -11,12 +11,14 @@ const ModelsContainer = async ({ children, token, user }: any) => {
   const initiallySelectedBudget = findClosestBudgetDate(new Date(), budgets)?.id;
   let transactions = [];
   let transactionsCount = 0;
+  let isLoaded = false;
 
-  if (initiallySelectedBudget !== undefined) {
+  if (initiallySelectedBudget !== undefined && !isLoaded) {
     const transactionsReq = await fetchTransactions(token, initiallySelectedBudget, 6, 0);
     if (transactionsReq) {
       transactions = transactionsReq.transactions;
       transactionsCount = transactionsReq.count;
+      isLoaded = true;
     }
   }
 

@@ -19,29 +19,27 @@ const Budget = async () => {
 
   return (
     <main className="flex min-h-screen">
-      <ModelsContainer token={token} user={user}>
-        {/* left column */}
-        <div className="flex flex-col gap-2 sm:gap-8 flex-1 bg-grey4 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
-            <div className="flex flex-wrap justify-between z-1 gap-4 s:h-10">
-              <BudgetSwitch />
-              <NewTransactionButton token={token} />
-            </div>
-            <Income />
-            <Expenses />
-            <Debt />
-            <Savings />
-        </div>
+      {/* left column */}
+      <div className="flex flex-col gap-2 sm:gap-8 flex-1 bg-grey4 min-h-screen p-6 overflow-hidden w-full xl:w-1/2" style={{maxWidth: '55rem'}}>
+          <div className="flex flex-wrap justify-between z-1 gap-4 s:h-10">
+            <BudgetSwitch />
+            <NewTransactionButton token={token} />
+          </div>
+          <Income />
+          <Expenses />
+          <Debt />
+          <Savings />
+      </div>
 
-        {/* right column */}
-        <div className="hidden xl:flex flex-col gap-8 flex-1 bg-grey5 min-h-screen p-6 overflow-hidden w-1/2" style={{maxWidth: '55rem'}}>
-          <h1 className="text-2xl font-bold h-10 flex items-center">Summary</h1>
-          <Scales />
-          <SankeyChart theme={theme} />
-          <hr className="text-grey6" />
-          <TransactionsFilter />
-          <TransactionsGrid token={token} />
-        </div>
-      </ModelsContainer>
+      {/* right column */}
+      <div className="hidden xl:flex flex-col gap-8 flex-1 bg-grey5 min-h-screen p-6 overflow-hidden w-1/2" style={{maxWidth: '55rem'}}>
+        <h1 className="text-2xl font-bold h-10 flex items-center">Summary</h1>
+        <Scales />
+        <SankeyChart theme={theme} />
+        <hr className="text-grey6" />
+        <TransactionsFilter />
+        <TransactionsGrid token={token} />
+      </div>
     </main>
   );
 }

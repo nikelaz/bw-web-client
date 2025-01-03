@@ -9,7 +9,6 @@ const TransactionsFilter = () => {
   const transactionsModel = useTransactionsModel();
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('input change', event.target.value);
     transactionsModel.setFilter(event.target.value);
   };
 

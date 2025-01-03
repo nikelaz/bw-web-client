@@ -9,7 +9,6 @@ import { ChangePasswordDialog } from './change-password-dialog';
 const Settings = async () => {
   const [token, user] = useAuth();
   const theme = await getTheme();
-  console.log("settings/theme", theme);
 
   return (
     <main className="flex min-h-screen">
@@ -22,20 +21,17 @@ const Settings = async () => {
           </div>
 
           <ThemeSelect theme={theme} />
+          
+          <CurrencySelect token={token} />
 
-          <UserModelContextProvider user={user}>
-            <CurrencySelect token={token} />
+          <div className='mt-3'>
+            <h2 className="text-xl font-bold mb-4">User Details</h2>
+            <hr className="text-grey6" />
+          </div>
 
-            <div className='mt-3'>
-              <h2 className="text-xl font-bold mb-4">User Details</h2>
-              <hr className="text-grey6" />
-            </div>
+          <UserNameFields token={token} />
 
-            <UserNameFields token={token} />
-
-            <ChangePasswordDialog token={token} />
-
-          </UserModelContextProvider>
+          <ChangePasswordDialog token={token} />
         </div>
       </div>
     </main>

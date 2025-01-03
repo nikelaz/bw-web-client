@@ -84,7 +84,7 @@ class ChartColorsProvider {
 }
 
 const SankeyChart = (props: any) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const categoryBudgetModel: CategoryBudgetViewModel = useCategoryBudgetModel();
   const userModel = useUserModel();
   const incomeCategoryBudgets = categoryBudgetModel.categoryBudgetsByType[CategoryType.INCOME];
@@ -122,6 +122,7 @@ const SankeyChart = (props: any) => {
   let chart: any = null;
 
   useEffect(() => {
+    setIsLoading(true);
     if (canvasRef.current ===  null || chart !== null) return;
 
     const ctx = canvasRef.current.getContext('2d');
