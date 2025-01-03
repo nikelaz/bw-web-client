@@ -66,7 +66,11 @@ const NewTransactionButton = (props: any) => {
           <DialogForm>
             <Input autoFocus={true} type="text" name="title" placeholder="Description" />
             <Input required={true} type="date" name="date" defaultValue={(new Date).toISOString().split('T')[0]} />
-            <Select name="category">
+            <Select
+              name="category"
+              value={transactionsModel.category}
+              onChange={e => transactionsModel.setCategory(e.currentTarget.value)}
+            >
               <optgroup label="Income">
                 {options[CategoryType.INCOME].map((option: any) => (
                   <option key={option.value} value={option.value}>{option.label}</option>)

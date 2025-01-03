@@ -44,6 +44,12 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
   const transactionsModel = useTransactionsModel();
   const [deleteDataRow, setDeleteDataRow] = useState<CategoryBudget | null>(null);
 
+  const openTransactionsModalWithCategory = (row: any) => {
+    const rowId = row.id;
+    if (rowId) transactionsModel.setCategory(rowId);
+    transactionsModel.setIsCreateDialogOpen(true);
+  } 
+
   const colDefs: Array<ColDef> = [
     {
       field: 'category.title',
@@ -75,7 +81,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
       textAlign: 'right',
       unitSuffix: userModel.getCurrency(),
       width: props.currentAmountWidth || '8rem',
-      onClick: () => { transactionsModel.setIsCreateDialogOpen(true) },
+      onClick: openTransactionsModalWithCategory,
     }
   ];
 

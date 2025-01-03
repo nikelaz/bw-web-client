@@ -24,6 +24,8 @@ export class TransactionsViewModel {
   setBudgetChanged: Function;
   filter: string;
   setFilter: Function;
+  category: string;
+  setCategory: Function;
 
 
   constructor(token: string, transactions: Array<Transaction>, transactionsCount: string | number, currentBudgetId?: number) {
@@ -40,6 +42,7 @@ export class TransactionsViewModel {
       )
     );
     [this.budgetChanged, this.setBudgetChanged] = useState(false);
+    [this.category, this.setCategory] = useState('');
 
     useEffect(() => {
       if (!this.budgetChanged && this.budgetModel.currentBudgetId === currentBudgetId) return;
