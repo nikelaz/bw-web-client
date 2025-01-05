@@ -49,7 +49,6 @@ export const countries = [
 	"Colombia",
 	"Comoros",
 	"Congo",
-	"Congo",
 	"Cook Islands",
 	"Costa Rica",
 	"Croatia",
