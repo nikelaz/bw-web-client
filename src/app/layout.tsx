@@ -60,6 +60,7 @@ const RootLayout = async (props: RootLayoutProps) => {
         )}
       >
         {props.children}
+        <script data-goatcounter="https://budgetwarden-app.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
       </body>
     </html>
   );
