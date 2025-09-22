@@ -61,6 +61,8 @@ const RootLayout = async (props: RootLayoutProps) => {
       >
         {props.children}
         <script data-goatcounter="https://budgetwarden-app.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+        <script src="https://accounts.google.com/gsi/client" async></script>
+        <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
       </body>
     </html>
   );

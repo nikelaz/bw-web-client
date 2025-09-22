@@ -4,18 +4,72 @@ import {
   Label,
   Input,
   Button,
+  IconTypes,
 } from '@nikelaz/bw-ui';
-import { login } from '../../actions/user-actions';
+import { login, googleAuth } from '../../actions/user-actions';
 import { useFormState } from 'react-dom';
-import Link from 'next/link';
+import { useEffect } from 'react';
 import Logo from '../logo';
 
 const initialState = {
   message: '',
-}
+};
+
+type GoogleResponse = {
+  credential: string,
+};
 
 const Login = () => {
   const [state, formAction] = useFormState(login, initialState);
+
+  const handleGoogleResponse = async (response: GoogleResponse) => {
+    console.log('response', response);
+    try {
+      await googleAuth(response.credential);
+    }
+    catch(error) {
+      alert(error);
+    }
+  };
+
+  const initGoogleAuth = () => {
+    google.accounts.id.initialize({
+      client_id: '158086281084-2ukh2g8718rf8r6k5honmkh8djem26bp.apps.googleusercontent.com',
+      callback: handleGoogleResponse,
+    });
+  };
+
+  const signInWithApple = async () => {
+    console.log('sign in with apple');
+    AppleID.auth.init({
+      clientId : 'com.budgetwarden.app',
+      scope : 'name email',
+      redirectURI : 'https://app.budgetwarden.com/apple-auth',
+      state : '123qwerty',
+      nonce : '123qwerty',
+      usePopup : true
+    });
+  };
+
+  const handleAppleResponse = async (response: any) => {
+    console.log(response.detail.data);
+  };
+
+  const handleAppleFailure = async (response: any) => {
+    console.log(response.detail.error);
+  };
+
+  useEffect(() => {
+    initGoogleAuth();
+
+    document.addEventListener('AppleIDSignInOnSuccess', handleAppleResponse);
+    document.addEventListener('AppleIDSignInOnFailure', handleAppleFailure);
+
+    return () => {
+      document.removeEventListener('AppleIDSignInOnSuccess', handleAppleResponse);
+      document.removeEventListener('AppleIDSignInOnFailure', handleAppleFailure);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col gap-10 min-h-screen justify-center items-center bg-grey1 py-14 px-6">
@@ -33,10 +87,11 @@ const Login = () => {
           <p aria-live="polite" className="text-red1">
             {state?.message}
           </p>
-          <div className="flex items-center justify-between">
-            <Link href="/sign-up" className="c-link">Sign up</Link>
-            <Button>Login</Button>
-          </div>
+          <Button icon={IconTypes.Lock}>Sign In with Email</Button>
+          <hr />
+          <Button type="button" icon={IconTypes.Lock} onClick={ () => google.accounts.id.prompt() }>Sign In with Google</Button>
+          <Button type="button" icon={IconTypes.Lock} onClick={signInWithApple}>Sign In with Apple</Button>
+          <Button type="button" icon={IconTypes.Lock}>Sign Up with Email</Button>
         </form>
       </div>
     </div>
