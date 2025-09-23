@@ -82,6 +82,7 @@ export const oauth = async (token: string, provider: OAuthProvider) => {
     body: JSON.stringify({
       token,
       oAuthProvider: provider,
+      platform: 'web',
     })
   };
 
