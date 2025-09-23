@@ -39,8 +39,7 @@ const Login = () => {
     });
   };
 
-  const signInWithApple = async () => {
-    console.log('sign in with apple');
+  const initAppleAuth = async () => {
     AppleID.auth.init({
       clientId : 'com.budgetwarden.app',
       scope : 'name email',
@@ -49,6 +48,15 @@ const Login = () => {
       nonce : '123qwerty',
       usePopup : true
     });
+  };
+
+  const signInWithApple = async () => {
+    try {
+      const data = await AppleID.auth.signIn()
+      console.log('data from apple', data);
+    } catch ( error ) {
+      console.log('apple login error', error);
+    }
   };
 
   const handleAppleResponse = async (response: any) => {
@@ -60,14 +68,25 @@ const Login = () => {
   };
 
   useEffect(() => {
-    initGoogleAuth();
+    const googleScript = document.createElement("script");
+    googleScript.src = "https://accounts.google.com/gsi/client";
+    googleScript.async = true;
+    googleScript.onload = () => initGoogleAuth();
 
-    document.addEventListener('AppleIDSignInOnSuccess', handleAppleResponse);
-    document.addEventListener('AppleIDSignInOnFailure', handleAppleFailure);
+    const appleScript = document.createElement("script");
+    appleScript.src = "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
+    appleScript.async = true;
+    appleScript.onload = () => initAppleAuth();
+
+    document.body.appendChild(googleScript);
+    document.body.appendChild(appleScript);
+
+    document.addEventListener("AppleIDSignInOnSuccess", handleAppleResponse);
+    document.addEventListener("AppleIDSignInOnFailure", handleAppleFailure);
 
     return () => {
-      document.removeEventListener('AppleIDSignInOnSuccess', handleAppleResponse);
-      document.removeEventListener('AppleIDSignInOnFailure', handleAppleFailure);
+      document.removeEventListener("AppleIDSignInOnSuccess", handleAppleResponse);
+      document.removeEventListener("AppleIDSignInOnFailure", handleAppleFailure);
     };
   }, []);
 
