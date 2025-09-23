@@ -3,6 +3,7 @@ export {};
 declare global {
   interface Window {
     google: typeof google;
+    AppleID: typeof AppleID;
   }
 
   namespace google {
@@ -18,6 +19,38 @@ declare global {
         credential: string;
         select_by: string;
       }
+    }
+  }
+
+  namespace AppleID {
+    namespace auth {
+      interface InitOptions {
+        clientId: string;
+        scope?: string; // "name email"
+        redirectURI: string;
+        state?: string;
+        nonce?: string;
+        usePopup?: boolean;
+      }
+
+      function init(options: InitOptions): void;
+
+      function signIn(): Promise<AuthResponse>;
+    }
+
+    interface AuthResponse {
+      authorization: {
+        code: string; // short-lived authorization code
+        id_token?: string; // JWT if returned
+        state?: string;
+      };
+      user?: {
+        email?: string;
+        name?: {
+          firstName?: string;
+          lastName?: string;
+        };
+      };
     }
   }
 }
