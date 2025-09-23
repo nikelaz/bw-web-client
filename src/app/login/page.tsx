@@ -43,7 +43,7 @@ const Login = () => {
     AppleID.auth.init({
       clientId : 'com.budgetwarden.app',
       scope : 'name email',
-      redirectURI : 'https://stage-app.budgetwarden.com/login',
+      redirectURI : 'https://app.budgetwarden.com/api/v1/users/apple/auth',
       state : '123qwerty',
       nonce : '123qwerty',
       usePopup : true
