@@ -81,7 +81,7 @@ export const oauth = async (token: string, provider: OAuthProvider) => {
     },
     body: JSON.stringify({
       token,
-      oAuthProvider: OAuthProvider.GOOGLE,
+      oAuthProvider: provider,
     })
   };
 
