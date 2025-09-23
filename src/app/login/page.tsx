@@ -6,7 +6,7 @@ import {
   Button,
   IconTypes,
 } from '@nikelaz/bw-ui';
-import { login, googleAuth } from '../../actions/user-actions';
+import { login, oauth, OAuthProvider } from '../../actions/user-actions';
 import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import Logo from '../logo';
@@ -23,9 +23,8 @@ const Login = () => {
   const [state, formAction] = useFormState(login, initialState);
 
   const handleGoogleResponse = async (response: GoogleResponse) => {
-    console.log('response', response);
     try {
-      await googleAuth(response.credential);
+      await oauth(response.credential, OAuthProvider.GOOGLE);
     }
     catch(error) {
       alert(error);
@@ -39,13 +38,25 @@ const Login = () => {
     });
   };
 
+  const generateRandomString = (length = 32) => {
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array);
+    return Array.from(array, (b) => b.toString(16).padStart(2, "0")).join("");
+  };
+
   const initAppleAuth = async () => {
+    const state = generateRandomString(16);
+    const nonce = generateRandomString(16);
+
+    sessionStorage.setItem('apple_oauth_state', state);
+    sessionStorage.setItem('apple_oauth_nonce', nonce);
+
     AppleID.auth.init({
       clientId : 'com.budgetwarden.app',
       scope : 'name email',
       redirectURI : 'https://stage-app.budgetwarden.com/apple-auth',
-      state : '123qwerty',
-      nonce : '123qwerty',
+      state,
+      nonce,
       usePopup : true
     });
   };
@@ -53,18 +64,21 @@ const Login = () => {
   const signInWithApple = async () => {
     try {
       const data = await AppleID.auth.signIn()
-      console.log('data from apple', data);
+      
+      const state = data.authorization.state;
+      if (state !== sessionStorage.getItem('apple_oauth_state')) {
+        throw new Error('Invalid state returned from Apple');
+      }
+
+      const token = data.authorization.id_token;
+      if (!token) {
+        throw new Error('An unexpected error occured while authenticating with Apple services. Please try again later.');
+      }
+
+      await oauth(token, OAuthProvider.APPLE);
     } catch ( error ) {
-      console.log('apple login error', error);
+      alert(error);
     }
-  };
-
-  const handleAppleResponse = async (response: any) => {
-    console.log(response.detail.data);
-  };
-
-  const handleAppleFailure = async (response: any) => {
-    console.log(response.detail.error);
   };
 
   useEffect(() => {
@@ -80,14 +94,6 @@ const Login = () => {
 
     document.body.appendChild(googleScript);
     document.body.appendChild(appleScript);
-
-    document.addEventListener("AppleIDSignInOnSuccess", handleAppleResponse);
-    document.addEventListener("AppleIDSignInOnFailure", handleAppleFailure);
-
-    return () => {
-      document.removeEventListener("AppleIDSignInOnSuccess", handleAppleResponse);
-      document.removeEventListener("AppleIDSignInOnFailure", handleAppleFailure);
-    };
   }, []);
 
   return (

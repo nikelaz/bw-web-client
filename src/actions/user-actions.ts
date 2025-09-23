@@ -5,7 +5,7 @@ import { User } from '@/types/user';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-enum OAuthProvider {
+export enum OAuthProvider {
   GOOGLE = 1,
   APPLE = 2,
 };
@@ -67,7 +67,7 @@ export const login = async (prevState: any, formData: FormData) => {
   redirect('/budget');
 };
 
-export const googleAuth = async (token: string) => {
+export const oauth = async (token: string, provider: OAuthProvider) => {
   if (!token) {
     throw new Error('Could not retrieve your credentials from Google. Please try again later.');
   }
