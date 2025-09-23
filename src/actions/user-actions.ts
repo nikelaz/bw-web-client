@@ -5,7 +5,7 @@ import { User } from '@/types/user';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export enum OAuthProvider {
+enum OAuthProvider {
   GOOGLE = 1,
   APPLE = 2,
 };

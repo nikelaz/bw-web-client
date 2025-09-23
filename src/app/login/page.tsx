@@ -6,7 +6,7 @@ import {
   Button,
   IconTypes,
 } from '@nikelaz/bw-ui';
-import { login, oauth, OAuthProvider } from '../../actions/user-actions';
+import { login, oauth } from '../../actions/user-actions';
 import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import Logo from '../logo';
@@ -17,6 +17,11 @@ const initialState = {
 
 type GoogleResponse = {
   credential: string,
+};
+
+enum OAuthProvider {
+  GOOGLE = 1,
+  APPLE = 2,
 };
 
 const Login = () => {
