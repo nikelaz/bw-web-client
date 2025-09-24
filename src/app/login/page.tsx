@@ -51,17 +51,14 @@ const Login = () => {
 
   const initAppleAuth = async () => {
     const state = generateRandomString(16);
-    const nonce = generateRandomString(16);
 
     sessionStorage.setItem('apple_oauth_state', state);
-    sessionStorage.setItem('apple_oauth_nonce', nonce);
 
     AppleID.auth.init({
       clientId : 'com.budgetwarden.app',
       scope : 'name email',
       redirectURI : 'https://stage-app.budgetwarden.com/apple-auth',
       state,
-      nonce,
       usePopup : true
     });
   };
