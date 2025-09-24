@@ -193,17 +193,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-export const DeleteCategoryDialog = (props: DeleteCategoryDialogProps) => {
-
-  const formSubmitHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    await categoryBudgetModel.deleteCategoryBudget({ id: props.row.id });
-    props.setIsOpen(false);
-  };
-
-  return (
-
-  );
-};
