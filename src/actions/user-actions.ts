@@ -67,7 +67,7 @@ export const login = async (prevState: any, formData: FormData) => {
   redirect('/budget');
 };
 
-export const oauth = async (token: string, provider: OAuthProvider) => {
+export const oauth = async (token: string, provider: OAuthProvider, firstName?: string, lastName?: string) => {
   if (!token) {
     throw new Error('Could not retrieve your credentials from Google. Please try again later.');
   }
@@ -83,6 +83,8 @@ export const oauth = async (token: string, provider: OAuthProvider) => {
       token,
       oAuthProvider: provider,
       platform: 'web',
+      firstName,
+      lastName,
     })
   };
 
