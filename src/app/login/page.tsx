@@ -66,6 +66,8 @@ const Login = () => {
   const signInWithApple = async () => {
     try {
       const data = await AppleID.auth.signIn()
+
+      console.log('apple response', data);
       
       const state = data.authorization.state;
       if (state !== sessionStorage.getItem('apple_oauth_state')) {
