@@ -86,13 +86,19 @@ const Login = () => {
 
     const firstName = data.user?.name?.firstName;
     const lastName = data.user?.name?.lastName;
-    
-    if (!firstName || !lastName) {
-      setAppleIdToken(token);
-      setShowMoreAppleDetailsPopup(true);  
+   
+    try {
+      await oauth(token, OAuthProvider.APPLE, firstName, lastName);
     }
-
-    await oauth(token, OAuthProvider.APPLE, firstName, lastName);
+    catch (error) {
+      if (!firstName || !lastName) {
+        setAppleIdToken(token);
+        setShowMoreAppleDetailsPopup(true);  
+      }
+      else {
+        alert(APPLE_ERR_MESSAGE);
+      }
+    }
   };
 
   const signInWithAppleWithDetails = async (event: any) => {

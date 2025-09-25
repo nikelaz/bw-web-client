@@ -278,3 +278,32 @@ export const changePassword = async (token: string, prevState: any, formData: Fo
 
   return jsonResponse;
 };
+
+export const deleteUser = async (
+  token: string | undefined,
+  user: Partial<User>
+  ) => {
+  if (!token || user.id) return;
+
+  const reqOptions = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+  };
+
+  const req = await fetch(`${serviceUrl}/users/${user.id}`, reqOptions);
+
+  const jsonResponse = await req.json();
+
+  if (req.status !== 200 && jsonResponse.message) {
+    throw new Error(jsonResponse.message);
+  }
+
+  if (req.status !== 200 && !jsonResponse.message) {
+    throw new Error('An unexpected error occured. Please try again later.')
+  }
+
+  logout();
+};
