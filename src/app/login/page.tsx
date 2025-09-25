@@ -5,6 +5,7 @@ import {
   Input,
   Button,
   Dialog,
+  DialogForm,
   DialogFooter,
   IconTypes,
 } from '@nikelaz/bw-ui';
@@ -176,17 +177,19 @@ const Login = () => {
         title="Additional Details"
       >
         <form onSubmit={signInWithAppleWithDetails} method="dialog">
-          <p className="mb-3">We could not retrieve your first and last name from Apple. Please provide these details to continue.</p>
+          <p className="mb-3 max-w-full">We could not retrieve your first and last name from Apple. Please provide these details to continue.</p>
 
-          <div>
-            <Label htmlFor="firstName">First Name</Label>
-            <Input autoFocus={true} required={true} name="firstName" type="text" id="firstName" />
-          </div>
+          <DialogForm>
+            <div>
+              <Label htmlFor="firstName">First Name</Label>
+              <Input autoFocus={true} required={true} name="firstName" type="text" id="firstName" />
+            </div>
 
-          <div>
-            <Label htmlFor="lastName">First Name</Label>
-            <Input autoFocus={true} required={true} name="lastName" type="text" id="lastName" />
-          </div>
+            <div>
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input autoFocus={true} required={true} name="lastName" type="text" id="lastName" />
+            </div>
+          </DialogForm>
 
           <DialogFooter className='gap-4'>
             <Button style="link" type="button" onClick={() => setShowMoreAppleDetailsPopup(false)}>Cancel</Button>
