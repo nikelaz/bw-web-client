@@ -34,7 +34,6 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
 
   const deleteHandler = async () => {
     try {
-      console.log('deleting user', props.token, userModel.user);
       await deleteUser(props.token, userModel.user);
     }
     catch (error) {
@@ -61,7 +60,7 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
         hasCloseBtn={false}
       >
         <p>You are about to delete your account</p>
-        <DialogFooter>
+        <DialogFooter className="gap-4">
           <Button
             type="button"
             onClick={() => setIsOpen(false)}
@@ -86,7 +85,7 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
       >
         <p>This is permanent and you will lose all of your data.</p>
         <p>Are you sure?</p>
-        <DialogFooter>
+        <DialogFooter className="gap-4">
           <Button
             type="button"
             onClick={() => setIsSecondOpen(false)}

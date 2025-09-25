@@ -283,12 +283,11 @@ export const deleteUser = async (
   token: string | undefined,
   user: Partial<User>
   ) => {
-  if (!token || user.id) return;
+  if (!token || !user.id) return;
 
   const reqOptions = {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
   };
