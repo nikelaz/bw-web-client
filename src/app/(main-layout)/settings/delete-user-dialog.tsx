@@ -34,6 +34,7 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
 
   const deleteHandler = async () => {
     try {
+      console.log('deleting user', props.token, userModel.user);
       await deleteUser(props.token, userModel.user);
     }
     catch (error) {
