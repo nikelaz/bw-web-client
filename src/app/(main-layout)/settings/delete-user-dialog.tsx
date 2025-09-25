@@ -10,7 +10,11 @@ import {
 import { deleteUser } from '@/actions/user-actions';
 import { useUserModel } from '@/view-models/user-model';
 
-export const DeleteUserDialog = () => {
+type DeleteUserDialogProps = Readonly<{
+  token?: string,
+}>;
+
+export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
   const [isOpen, setIsOpen, onKeyDown] = useDialog();
   const [isSecondOpen, setIsSecondOpen, onSecondKeyDown] = useDialog();
   const userModel = useUserModel();
@@ -30,7 +34,7 @@ export const DeleteUserDialog = () => {
 
   const deleteHandler = async () => {
     try {
-      await deleteUser(userModel.token, userModel.user);
+      await deleteUser(props.token, userModel.user);
     }
     catch (error) {
       alert(error);

@@ -5,6 +5,7 @@ import { CurrencySelect } from './currency-select';
 import { UserNameFields } from './user-name-fields';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { OAuthProviderDisplay } from './oauth-provider-display';
+import { DeleteUserDialog } from './delete-user-dialog';
 
 const Settings = async () => {
   const [token, user] = useAuth();
@@ -34,6 +35,8 @@ const Settings = async () => {
           <OAuthProviderDisplay />
 
           <ChangePasswordDialog token={token} />
+
+          <DeleteUserDialog token={token} />
         </div>
       </div>
     </main>
