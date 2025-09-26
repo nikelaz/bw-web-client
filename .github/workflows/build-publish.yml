@@ -23,7 +23,7 @@ jobs:
 
       - name: Build image
         run: |
-          IMAGE=ghcr.io/${{ github.repository }}/web-client
+          IMAGE=ghcr.io/${{ github.repository }}
           docker build \
             -t $IMAGE:${{ github.sha }} \
             -f Dockerfile.prod \
@@ -46,7 +46,7 @@ jobs:
 
       - name: Tag and push staging image
         run: |
-          IMAGE=ghcr.io/${{ github.repository }}/web-client
+          IMAGE=ghcr.io/${{ github.repository }}
           docker pull $IMAGE:${{ needs.build.outputs.sha }}
           docker tag $IMAGE:${{ needs.build.outputs.sha }} $IMAGE:staging
           docker push $IMAGE:staging
