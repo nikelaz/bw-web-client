@@ -1,0 +1,73 @@
+name: Build & Publish Image 
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Web Client Image
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ github.sha }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}/web-client
+          docker build \
+            -t $IMAGE:${{ github.sha }} \
+            -f packages/bw-web-client/Dockerfile.prod \
+            packages/bw-web-client
+          docker push $IMAGE:${{ github.sha }}
+
+  staging:
+    name: Push Staging Image
+    runs-on: ubuntu-latest
+    needs: build
+    environment: staging
+
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag and push staging image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}/web-client
+          docker pull $IMAGE:${{ needs.build.outputs.sha }}
+          docker tag $IMAGE:${{ needs.build.outputs.sha }} $IMAGE:staging
+          docker push $IMAGE:staging
+
+  production:
+    name: Push Production Image
+    runs-on: ubuntu-latest
+    needs: staging
+    environment: production 
+
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag and push production image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}/web-client
+          docker pull $IMAGE:${{ needs.build.outputs.sha }}
+          docker tag $IMAGE:${{ needs.build.outputs.sha }} $IMAGE:production
+          docker push $IMAGE:production
