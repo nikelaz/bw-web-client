@@ -3,12 +3,14 @@ name: Build & Publish Image
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
-    name: Build Web Client Image
+    name: Build
     runs-on: ubuntu-latest
-    outputs:
-      sha: ${{ github.sha }}
 
     steps:
       - name: Checkout code
@@ -21,53 +23,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set image tag based on branch
+        id: vars
+        run: |
+          echo "sha=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "branch_tag=production" >> $GITHUB_OUTPUT
+          else
+            echo "branch_tag=staging" >> $GITHUB_OUTPUT
+
       - name: Build image
         run: |
-          IMAGE=ghcr.io/${{ github.repository }}
-          docker build \
-            -t $IMAGE:${{ github.sha }} \
-            -f Dockerfile.prod \
-            .
-          docker push $IMAGE:${{ github.sha }}
+          IMAGE=ghcr.io/nikelaz/bw-web-client
+          docker build -t $IMAGE:${{ steps.vars.outputs.sha }} -f Dockerfile.prod .
+          docker tag $IMAGE:${{ steps.vars.outputs.sha }} $IMAGE:${{ steps.vars.outputs.branch_tag }}
 
-  staging:
-    name: Push Staging Image
-    runs-on: ubuntu-latest
-    needs: build
-    environment: staging
-
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Tag and push staging image
+      - name: Push images
         run: |
-          IMAGE=ghcr.io/${{ github.repository }}
-          docker pull $IMAGE:${{ needs.build.outputs.sha }}
-          docker tag $IMAGE:${{ needs.build.outputs.sha }} $IMAGE:staging
-          docker push $IMAGE:staging
-
-  production:
-    name: Push Production Image
-    runs-on: ubuntu-latest
-    needs: staging
-    environment: production 
-
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Tag and push production image
-        run: |
-          IMAGE=ghcr.io/${{ github.repository }}/web-client
-          docker pull $IMAGE:${{ needs.build.outputs.sha }}
-          docker tag $IMAGE:${{ needs.build.outputs.sha }} $IMAGE:production
-          docker push $IMAGE:production
+          IMAGE=ghcr.io/nikelaz/bw-web-client
+          docker push $IMAGE:${{ steps.vars.outputs.sha }}
+          docker push $IMAGE:${{ steps.vars.outputs.branch_tag }}
