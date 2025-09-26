@@ -26,8 +26,6 @@ export const UserNameFields = (props: UserNameFieldsProps) => {
     });
   };
 
-  console.log('userModel', userModel);
-
   return (
     <>
       <div>

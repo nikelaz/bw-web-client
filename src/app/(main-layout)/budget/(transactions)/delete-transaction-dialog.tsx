@@ -44,7 +44,7 @@ export const DeleteTransactionDialog = (props: DeleteTransactionDialogProps) => 
     >
       <form onSubmit={formSubmitHandler} method="dialog">
         <p className="mb-3">You are about to delete a transaction:</p>
-        <div className="text-lg font-semibold p-2 pl-3 pr-3 bg-grey1 rounded-lg border border-grey4 mb-3">{props.row?.title || props.row?.categoryBudget?.category?.title}</div>
+        <div className="text-lg font-semibold p-2 pl-3 pr-3 bg-grey1 rounded border border-grey4 mb-3">{props.row?.title || props.row?.categoryBudget?.category?.title}</div>
         <p>Are you sure?</p>
         <DialogFooter className='gap-4'>
           <Button style="link" type="button" onClick={() => props.setIsOpen(false)} autoFocus={true}>Cancel</Button>

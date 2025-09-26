@@ -1,10 +1,11 @@
 import { ThemeSelect } from './theme-select';
 import { getTheme } from '@/actions/settings-actions';
-import { UserModelContextProvider } from '@/view-models/user-model';
 import { useAuth } from '@/helpers/auth';
 import { CurrencySelect } from './currency-select';
 import { UserNameFields } from './user-name-fields';
 import { ChangePasswordDialog } from './change-password-dialog';
+import { OAuthProviderDisplay } from './oauth-provider-display';
+import { DeleteUserDialog } from './delete-user-dialog';
 
 const Settings = async () => {
   const [token, user] = useAuth();
@@ -31,7 +32,11 @@ const Settings = async () => {
 
           <UserNameFields token={token} />
 
+          <OAuthProviderDisplay />
+
           <ChangePasswordDialog token={token} />
+
+          <DeleteUserDialog token={token} />
         </div>
       </div>
     </main>

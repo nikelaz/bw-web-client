@@ -190,7 +190,7 @@ const SankeyChart = (props: any) => {
   }, [canvasRef, incomeChartSegments, totalSavings, totalExpenses, totalDebt])
 
   return (
-    <div className="p-6 bg-grey1 dark:bg-grey6 rounded-xl" style={{ paddingRight: '0.55rem' }}>
+    <div className="p-6 bg-grey1 dark:bg-grey6 rounded" style={{ paddingRight: '0.55rem' }}>
       <div className="flex items-center justify-center" style={{position: 'relative', width: '100%', aspectRatio: props.aspectRatioStr || '21/8'}}>
         { isLoading ? <Loader width={50} height={50} className="absolute text-grey11" /> : null }
         <canvas ref={canvasRef} />

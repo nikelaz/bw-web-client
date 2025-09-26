@@ -5,6 +5,11 @@ import { User } from '@/types/user';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+enum OAuthProvider {
+  GOOGLE = 1,
+  APPLE = 2,
+};
+
 export const login = async (prevState: any, formData: FormData) => {
   const email = formData.get('email')?.toString();
   const password = formData.get('password')?.toString();
@@ -62,7 +67,61 @@ export const login = async (prevState: any, formData: FormData) => {
   redirect('/budget');
 };
 
-export const logout = () => {
+export const oauth = async (token: string, provider: OAuthProvider, firstName?: string, lastName?: string) => {
+  if (!token) {
+    throw new Error('Could not retrieve your credentials from Google. Please try again later.');
+  }
+
+  let req;
+
+  const reqOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token,
+      oAuthProvider: provider,
+      platform: 'web',
+      firstName,
+      lastName,
+    })
+  };
+
+  req = await fetch(`${serviceUrl}/users/oauth`, reqOptions);
+
+  const jsonResponse = await req.json();
+
+  if (req.status !== 200) {
+    if (jsonResponse.message) {
+      throw new Error(jsonResponse.message);
+    }
+    else {
+      throw new Error('An unexpected error occured while trying to sign you in with Google. Please try again later');
+    }
+  }
+
+  const cookieStore = cookies();
+
+  const thirtyDays = 24 * 60 * 60 * 1000 * 30
+  const expirationTimestamp = Date.now() + thirtyDays;
+
+  cookieStore.set(
+    'token',
+    jsonResponse.token,
+    { expires: expirationTimestamp }
+  );
+
+  cookieStore.set(
+    'user',
+    JSON.stringify(jsonResponse.user),
+    { expires: expirationTimestamp }
+  );
+
+  redirect('/budget');    
+};
+
+export const logout = async () => {
   const cookieStore = cookies();
   cookieStore.delete('token');
   cookieStore.delete('user');
@@ -218,4 +277,32 @@ export const changePassword = async (token: string, prevState: any, formData: Fo
   const jsonResponse = await req.json();
 
   return jsonResponse;
+};
+
+export const deleteUser = async (
+  token: string | undefined,
+  user: Partial<User>
+  ) => {
+  if (!token || !user.id) return;
+
+  const reqOptions = {
+    method: 'DELETE',
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+
+  const req = await fetch(`${serviceUrl}/users/${user.id}`, reqOptions);
+
+  const jsonResponse = await req.json();
+
+  if (req.status !== 200 && jsonResponse.message) {
+    throw new Error(jsonResponse.message);
+  }
+
+  if (req.status !== 200 && !jsonResponse.message) {
+    throw new Error('An unexpected error occured. Please try again later.')
+  }
+
+  logout();
 };
