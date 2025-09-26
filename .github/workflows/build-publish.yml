@@ -27,7 +27,7 @@ jobs:
           docker build \
             -t $IMAGE:${{ github.sha }} \
             -f Dockerfile.prod \
-            /
+            .
           docker push $IMAGE:${{ github.sha }}
 
   staging:

@@ -1,4 +1,10 @@
-.gitignore
-.eslintrc.json
-README.md
 node_modules
+dist
+.git
+.gitignore
+*.log
+.env
+Dockerfile*
+docker-compose*.yml
+README.md
+.eslintrc.json
