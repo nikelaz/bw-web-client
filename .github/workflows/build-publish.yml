@@ -26,7 +26,7 @@ jobs:
           IMAGE=ghcr.io/${{ github.repository }}/web-client
           docker build \
             -t $IMAGE:${{ github.sha }} \
-            -f packages/bw-web-client/Dockerfile.prod \
+            -f Dockerfile.prod \
             packages/bw-web-client
           docker push $IMAGE:${{ github.sha }}
 
