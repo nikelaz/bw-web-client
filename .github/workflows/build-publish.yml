@@ -1,7 +1,12 @@
-name: Build & Publish Image 
+name: Build & Publish Web Client Image
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch for deployment (staging or main)'
+        required: true
+        default: staging
 
 permissions:
   contents: read
@@ -9,7 +14,7 @@ permissions:
 
 jobs:
   build:
-    name: Build
+    name: Build & Push Image
     runs-on: ubuntu-latest
 
     steps:
@@ -23,23 +28,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set image tag based on branch
+      - name: Set image tag
         id: vars
         run: |
           echo "sha=${GITHUB_SHA}" >> $GITHUB_OUTPUT
-          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+          if [[ "${{ github.event.inputs.branch }}" == "main" ]]; then
             echo "branch_tag=production" >> $GITHUB_OUTPUT
           else
             echo "branch_tag=staging" >> $GITHUB_OUTPUT
-          fi
 
-      - name: Build image
+      - name: Build Docker image
         run: |
           IMAGE=ghcr.io/nikelaz/bw-web-client
           docker build -t $IMAGE:${{ steps.vars.outputs.sha }} -f Dockerfile.prod .
           docker tag $IMAGE:${{ steps.vars.outputs.sha }} $IMAGE:${{ steps.vars.outputs.branch_tag }}
 
-      - name: Push images
+      - name: Push Docker images
         run: |
           IMAGE=ghcr.io/nikelaz/bw-web-client
           docker push $IMAGE:${{ steps.vars.outputs.sha }}
