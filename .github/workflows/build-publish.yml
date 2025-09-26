@@ -36,6 +36,7 @@ jobs:
             echo "branch_tag=production" >> $GITHUB_OUTPUT
           else
             echo "branch_tag=staging" >> $GITHUB_OUTPUT
+          fi
 
       - name: Build Docker image
         run: |
