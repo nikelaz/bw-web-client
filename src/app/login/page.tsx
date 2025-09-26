@@ -149,7 +149,7 @@ const Login = () => {
     <>
       <div className="flex flex-col gap-10 min-h-screen justify-center items-center bg-grey1 py-14 px-6">
         <Logo />
-        <div className="w-full shadow-lg rounded-xl p-5 bg-white dark:bg-grey4" style={{ maxWidth: '26rem' }}>
+        <div className="w-full shadow-lg rounded p-5 pb-7 bg-white dark:bg-grey4" style={{ maxWidth: '26rem' }}>
           <form action={formAction} className="flex flex-col gap-5">
             <div>
               <Label htmlFor="email">Email</Label>
@@ -163,10 +163,10 @@ const Login = () => {
               {state?.message}
             </p>
             <Button icon={IconTypes.Lock}>Sign In with Email</Button>
-            <hr />
-            <Button type="button" icon={IconTypes.Lock} onClick={ () => google.accounts.id.prompt() }>Sign In with Google</Button>
-            <Button type="button" icon={IconTypes.Lock} onClick={signInWithApple}>Sign In with Apple</Button>
-            <Button type="button" icon={IconTypes.Lock}>Sign Up with Email</Button>
+            <hr className="text-grey5" />
+            <Button type="button" style="secondary" icon={IconTypes.Google} onClick={ () => google.accounts.id.prompt() }>Sign In with Google</Button>
+            <Button type="button" style="secondary" icon={IconTypes.Apple} onClick={signInWithApple}>Sign In with Apple</Button>
+            <Button type="button" style="secondary" icon={IconTypes.Mail}>Sign Up with Email</Button>
           </form>
         </div>
       </div>
