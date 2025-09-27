@@ -47,7 +47,7 @@ export const DeleteTransactionDialog = (props: DeleteTransactionDialogProps) => 
         <div className="text-lg font-semibold p-2 pl-3 pr-3 bg-grey1 rounded border border-grey4 mb-3">{props.row?.title || props.row?.categoryBudget?.category?.title}</div>
         <p>Are you sure?</p>
         <DialogFooter className='gap-4'>
-          <Button style="link" type="button" onClick={() => props.setIsOpen(false)} autoFocus={true}>Cancel</Button>
+          <Button style="secondary" type="button" onClick={() => props.setIsOpen(false)} autoFocus={true}>Cancel</Button>
           <Button>Delete</Button>
         </DialogFooter>
       </form>

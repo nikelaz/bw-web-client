@@ -42,7 +42,7 @@ export const ChangePasswordDialog = (props: any) => {
     <>
       <Button
         type="button"
-        style="link"
+        style="secondary"
         icon={IconTypes.Lock}
         onClick={() => setIsOpen(true)}
       >

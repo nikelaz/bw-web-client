@@ -45,7 +45,7 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
     <>
       <Button
         type="button"
-        style="link"
+        style="secondary"
         icon={IconTypes.Bin}
         onClick={() => setIsOpen(true)}
       >
