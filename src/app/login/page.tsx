@@ -65,7 +65,7 @@ const Login = () => {
     AppleID.auth.init({
       clientId : 'com.budgetwarden.app',
       scope : 'name email',
-      redirectURI : 'https://stage-app.budgetwarden.com/apple-auth',
+      redirectURI : 'https://app.budgetwarden.com/apple-auth',
       state,
       usePopup : true
     });
@@ -98,6 +98,7 @@ const Login = () => {
         setShowMoreAppleDetailsPopup(true);  
       }
       else {
+        console.log(error);
         alert(APPLE_ERR_MESSAGE);
       }
     }
