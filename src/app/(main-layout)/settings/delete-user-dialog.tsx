@@ -48,6 +48,7 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
         style="secondary"
         icon={IconTypes.Bin}
         onClick={() => setIsOpen(true)}
+        className="max-w-[24rem]"
       >
         Delete Account
       </Button>
@@ -63,12 +64,14 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
         <DialogFooter className="gap-4">
           <Button
             type="button"
+            style="secondary"
             onClick={() => setIsOpen(false)}
           >
             Cancel
           </Button>
           <Button
             type="button"
+            style="danger"
             onClick={firstConfirmHandler}
           >
             Delete
@@ -88,12 +91,14 @@ export const DeleteUserDialog = (props: DeleteUserDialogProps) => {
         <DialogFooter className="gap-4">
           <Button
             type="button"
+            style="secondary"
             onClick={() => setIsSecondOpen(false)}
           >
             Cancel
           </Button>
           <Button
             type="button"
+            style="danger"
             onClick={deleteHandler}
           >
             Yes, Delete
