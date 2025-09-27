@@ -55,7 +55,7 @@ const SignUp = () => {
           </p>
           <div className="flex items-center justify-between">
             <Link href="/login">Login</Link>
-            <Button>Sign up</Button>
+            <Button>Sign Up</Button>
           </div>
         </form>
       </div>

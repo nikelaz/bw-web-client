@@ -12,6 +12,7 @@ import {
 import { login, oauth } from '../../actions/user-actions';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Logo from '../logo';
 
 const initialState = {
@@ -175,7 +176,9 @@ const Login = () => {
             <hr className="text-grey5" />
             <Button type="button" style="secondary" icon={IconTypes.Google} onClick={ () => google.accounts.id.prompt() }>Continue with Google</Button>
             <Button type="button" style="secondary" icon={IconTypes.Apple} onClick={signInWithApple}>Continue with Apple</Button>
-            <Button type="button" style="secondary" icon={IconTypes.Mail}>Sign Up with Email</Button>
+            <Link href="/sign-up" className="block">
+              <Button type="button" style="secondary" icon={IconTypes.Mail} className="w-full">Sign Up with Email</Button>
+            </Link>
           </form>
         </div>
       </div>
