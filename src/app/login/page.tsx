@@ -130,20 +130,29 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    const googleScript = document.createElement("script");
-    googleScript.src = "https://accounts.google.com/gsi/client";
-    googleScript.async = true;
-    googleScript.onload = () => initGoogleAuth();
+  const loadOAuthScriptsIfNecessary = () => {
+    const googleScriptSrc = 'https://accounts.google.com/gsi/client';
+    
+    if (!document.querySelector(`script[src="${googleScriptSrc}"]`)) {
+      const googleScript = document.createElement("script");
+      googleScript.src = googleScriptSrc;
+      googleScript.async = true;
+      googleScript.onload = () => initGoogleAuth();
+      document.body.appendChild(googleScript);
+    }
 
-    const appleScript = document.createElement("script");
-    appleScript.src = "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
-    appleScript.async = true;
-    appleScript.onload = () => initAppleAuth();
+    const appleScriptSrc = 'https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js';
 
-    document.body.appendChild(googleScript);
-    document.body.appendChild(appleScript);
-  }, []);
+    if (!document.querySelector(`script[src="${appleScriptSrc}"]`)) {
+      const appleScript = document.createElement("script");
+      appleScript.src = appleScriptSrc;
+      appleScript.async = true;
+      appleScript.onload = () => initAppleAuth();
+      document.body.appendChild(appleScript);
+    }
+  };
+
+  useEffect(loadOAuthScriptsIfNecessary, []);
 
   return (
     <>
@@ -164,8 +173,8 @@ const Login = () => {
             </p>
             <Button icon={IconTypes.Lock}>Sign In with Email</Button>
             <hr className="text-grey5" />
-            <Button type="button" style="secondary" icon={IconTypes.Google} onClick={ () => google.accounts.id.prompt() }>Sign In with Google</Button>
-            <Button type="button" style="secondary" icon={IconTypes.Apple} onClick={signInWithApple}>Sign In with Apple</Button>
+            <Button type="button" style="secondary" icon={IconTypes.Google} onClick={ () => google.accounts.id.prompt() }>Continue with Google</Button>
+            <Button type="button" style="secondary" icon={IconTypes.Apple} onClick={signInWithApple}>Continue with Apple</Button>
             <Button type="button" style="secondary" icon={IconTypes.Mail}>Sign Up with Email</Button>
           </form>
         </div>
@@ -192,7 +201,7 @@ const Login = () => {
           </DialogForm>
 
           <DialogFooter className='gap-4'>
-            <Button style="link" type="button" onClick={() => setShowMoreAppleDetailsPopup(false)}>Cancel</Button>
+            <Button style="secondary" type="button" onClick={() => setShowMoreAppleDetailsPopup(false)}>Cancel</Button>
             <Button>Continue</Button>
           </DialogFooter>
         </form>

@@ -139,7 +139,7 @@ const CategoryBudgetGrid = (props: CategoryBudgetGridProps) => {
               <Cell fontSize='l' fontWeight='bold' mobile={true}>Total {props.label}</Cell>
               <Cell desktop={true}>
                 <Button
-                  style="link"
+                  style="secondary"
                   icon={IconTypes.Plus}
                   onClick={() => createDialogModel[1](true)}
                 >
