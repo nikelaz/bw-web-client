@@ -45,6 +45,7 @@ export const ChangePasswordDialog = (props: any) => {
         style="secondary"
         icon={IconTypes.Lock}
         onClick={() => setIsOpen(true)}
+        className="max-w-[24rem]"
       >
         Change Password
       </Button>
