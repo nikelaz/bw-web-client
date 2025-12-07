@@ -8,7 +8,7 @@ import { OAuthProviderDisplay } from './oauth-provider-display';
 import { DeleteUserDialog } from './delete-user-dialog';
 
 const Settings = async () => {
-  const [token, user] = useAuth();
+  const [token] = await useAuth();
   const theme = await getTheme();
 
   return (

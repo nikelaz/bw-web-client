@@ -1,5 +1,4 @@
 import { useAuth } from '@/helpers/auth';
-import ModelsContainer from '@/app/(main-layout)/budget/models-container';
 import Income from './(budget-column)/income';
 import Expenses from './(budget-column)/expenses';
 import Debt from './(budget-column)/debt';
@@ -14,7 +13,7 @@ import { getTheme } from '@/actions/settings-actions';
 import { Theme } from '@/types/settings';
 
 const Budget = async () => {
-  const [token, user] = useAuth();
+  const [token] = await useAuth();
   const theme: Theme = await getTheme();
 
   return (

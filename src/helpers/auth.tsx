@@ -1,9 +1,10 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export const useAuth = () => {
-  const token = cookies().get('token')?.value;
-  let user = cookies().get('user')?.value;
+export const useAuth = async () => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+  let user = cookieStore.get('user')?.value;
 
   if (!token || !user) redirect('/login');
 

@@ -10,8 +10,7 @@ import {
   IconTypes,
 } from '@nikelaz/bw-ui';
 import { login, oauth } from '../../actions/user-actions';
-import { useFormState } from 'react-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useActionState } from 'react';
 import Link from 'next/link';
 import Logo from '../logo';
 
@@ -26,12 +25,12 @@ type GoogleResponse = {
 enum OAuthProvider {
   GOOGLE = 1,
   APPLE = 2,
-};
+}
 
-const APPLE_ERR_MESSAGE = 'An unexpected error occured while authenticating with Apple services. Please try again later.'; 
+const APPLE_ERR_MESSAGE = 'An unexpected error occured while authenticating with Apple services. Please try again later.';
 
 const Login = () => {
-  const [state, formAction] = useFormState(login, initialState);
+  const [state, formAction] = useActionState(login, initialState);
   const [showMoreAppleDetailsPopup, setShowMoreAppleDetailsPopup] = useState(false);
   const [appleIdToken, setAppleIdToken] = useState('');
 

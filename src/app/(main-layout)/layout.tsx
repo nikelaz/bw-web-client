@@ -12,8 +12,8 @@ type LayoutProps = Readonly<{
   children: React.ReactNode
 }>;
 
-const RootLayout = (props: LayoutProps) => {
-  const [token, user] = useAuth();
+const RootLayout = async (props: LayoutProps) => {
+  const [token, user] = await useAuth();
 
   return (
     <ModelsContainer token={token} user={user}>

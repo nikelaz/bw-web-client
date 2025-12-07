@@ -24,12 +24,12 @@ const parseTheme = (value: string | number | undefined) => {
 
 export const setTheme = async (value: string | number) => {
   const theme: Theme = parseTheme(value);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   cookieStore.set('theme', theme.toString());
 }
 
 export const getTheme = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   let theme: string | undefined | Theme = cookieStore.get('theme')?.value;
   theme = parseTheme(theme);
   return theme;

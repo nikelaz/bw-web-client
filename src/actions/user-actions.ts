@@ -39,7 +39,7 @@ export const login = async (prevState: any, formData: FormData) => {
 
   const jsonResponse = await req.json();
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const thirtyDays = 24 * 60 * 60 * 1000 * 30
   const expirationTimestamp = Date.now() + thirtyDays;
@@ -101,7 +101,7 @@ export const oauth = async (token: string, provider: OAuthProvider, firstName?: 
     }
   }
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const thirtyDays = 24 * 60 * 60 * 1000 * 30
   const expirationTimestamp = Date.now() + thirtyDays;
@@ -122,7 +122,7 @@ export const oauth = async (token: string, provider: OAuthProvider, firstName?: 
 };
 
 export const logout = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   cookieStore.delete('token');
   cookieStore.delete('user');
   redirect('/login');
@@ -228,7 +228,7 @@ export const updateUser = async (
     throw new Error('An unexpected error occured. Please try again later.')
   }
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const currentUserStr = cookieStore.get('user')?.value;
   if (!currentUserStr) return;
   let currentUser = JSON.parse(currentUserStr);

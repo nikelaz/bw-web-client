@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from "react";
 import {
   Label,
   Input,
@@ -17,7 +17,7 @@ const initialState = {
 };
 
 const SignUp = () => {
-  const [state, formAction] = useFormState(signup, initialState);
+  const [state, formAction] = useActionState(signup, initialState);
 
   return (
     <div className="flex flex-col gap-10 min-h-screen justify-center items-center bg-grey1 py-14 px-6">

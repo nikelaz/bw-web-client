@@ -9,15 +9,14 @@ import {
   DialogFooter,
   Input
 } from '@nikelaz/bw-ui';
-import { useFormState } from 'react-dom';
 import { changePassword } from '@/actions/user-actions';
-import { useRef } from 'react';
+import { useRef, useActionState } from 'react';
 import { useUserModel } from '@/view-models/user-model';
 
 enum OAuthProvider {
   GOOGLE = 1,
   APPLE = 2,
-};
+}
 
 const initialState = {
   message: '',
@@ -25,7 +24,7 @@ const initialState = {
 
 export const ChangePasswordDialog = (props: any) => {
   const [isOpen, setIsOpen, onKeyDown] = useDialog();
-  const [state, formAction] = useFormState(changePassword.bind(null, props.token), initialState);
+  const [state, formAction] = useActionState(changePassword.bind(null, props.token), initialState);
   const formRef: React.MutableRefObject<null | HTMLFormElement> = useRef(null);
   const userModel = useUserModel();
 

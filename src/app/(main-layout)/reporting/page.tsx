@@ -1,5 +1,3 @@
-import { useAuth } from '@/helpers/auth';
-import ModelsContainer from '@/app/(main-layout)/budget/models-container';
 import Scales from '../budget/(reporting)/scales';
 import SankeyChart from '../budget/(reporting)/sankey-chart';
 import { getTheme } from '@/actions/settings-actions';
@@ -7,7 +5,6 @@ import { Theme } from '@/types/settings';
 import { BudgetSwitch } from '../budget/(budget-column)/budget-switch';
 
 const Reporting = async () => {
-  const [token, user] = useAuth();
   const theme: Theme = await getTheme();
 
   return (
